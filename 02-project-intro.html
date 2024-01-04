@@ -32,7 +32,7 @@
     </div>
   </div>
   <hr></header><nav class="navbar navbar-expand-xl navbar-light bg-white bottom-nav data" aria-label="Main Navigation"><div class="container-fluid nav-container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
     </button>
@@ -43,7 +43,7 @@
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
-      <i role="img" aria-label="search button" data-feather="search"></i>
+        <i role="img" aria-label="search button" data-feather="search"></i>
       -->
     </div>
     <div class="desktop-nav">
@@ -78,11 +78,11 @@
   Introduction to R for Geospatial Data
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 10%" class="percentage">
-    10%
+<aside class="col-md-12 lesson-progress"><div style="width: 11%" class="percentage">
+    11%
   </div>
   <div class="progress data">
-    <div class="progress-bar data" role="progressbar" style="width: 10%" aria-valuenow="10" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar data" role="progressbar" style="width: 11%" aria-valuenow="11" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -90,7 +90,7 @@
         <!-- START: inst/pkgdown/templates/navbar.html -->
 <div id="sidebar-col" class="col-lg-4">
   <div id="sidebar" class="sidebar">
-      <nav aria-labelledby="flush-headingEleven"><button role="button" aria-label="close menu" alt="close menu" aria-expanded="true" aria-controls="sidebar" class="collapse-toggle">
+      <nav aria-labelledby="flush-headingEleven"><button role="button" aria-label="close menu" alt="close menu" aria-expanded="true" aria-controls="sidebar" class="collapse-toggle" data-collapse="Collapse " data-episodes="Episodes ">
           <i class="search-icon" data-feather="x" role="img"></i>
         </button>
         <div class="sidebar-inner">
@@ -179,7 +179,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="04-data-structures-part2.html">4. Exploring Data Frames</a>
+        <a href="05-data-subsetting.html">4. Subsetting Data</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -188,7 +188,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="05-data-subsetting.html">5. Subsetting Data</a>
+        <a href="06-dplyr.html">5. Data frame Manipulation with dplyr</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -197,7 +197,7 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="06-dplyr.html">6. Data frame Manipulation with dplyr</a>
+        <a href="07-plot-ggplot2.html">6. Introduction to Visualization</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -206,16 +206,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="07-plot-ggplot2.html">7. Introduction to Visualization</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush9">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading9">
-        <a href="08-writing-data.html">8. Writing Data</a>
+        <a href="08-writing-data.html">7. Writing Data</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -279,14 +270,14 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Project Management With RStudio</h1>
-        <p> Last updated on 2023-11-21 | 
+        <p>Last updated on 2024-01-04 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/02-project-intro.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
         
         
         <div class="text-end">
-          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
 
         
@@ -480,16 +471,13 @@ data files in the <code>data/</code> directory.</p>
 <p>1. Download each of the data files listed below
 (<kbd>Ctrl</kbd>+<kbd>S</kbd>, right mouse click -&gt; “Save as”, or
 File -&gt; “Save page as”)</p>
-<ul><li><a href="https://datacarpentry.org/r-intro-geospatial/data/nordic-data.csv" class="external-link">nordic
-country data</a></li>
-<li><a href="https://datacarpentry.org/r-intro-geospatial/data/nordic-data-2.csv" class="external-link">nordic
-country data (version 2)</a></li>
-<li><a href="https://datacarpentry.org/r-intro-geospatial/data/gapminder_data.csv" class="external-link">gapminder
-data</a></li>
+<ul><li><a href="https://cobalt-casco.github.io/r-intro-geospatial/data/dmr_kelp_urchin.csv" class="external-link">Maine
+DMR urchin survey data</a></li>
+<li><a href="https://cobalt-casco.github.io/r-intro-geospatial/data/casco_kelp_urchin.csv" class="external-link">Casco
+Bay data</a></li>
 </ul><p>2. Make sure the files have the following names:</p>
-<ul><li><code>nordic-data.csv</code></li>
-<li><code>nordic-data-2.csv</code></li>
-<li><code>gapminder_data.csv</code></li>
+<ul><li><code>dmr_kelp_urchin.csv</code></li>
+<li><code>casco_kelp_urchin.csv</code></li>
 </ul><p>3. Save the files in the <code>data/</code> folder within your
 project.</p>
 <p>We will load and inspect these data later.</p>
@@ -504,10 +492,10 @@ project.</p>
 <h3 class="callout-title">Challenge 2<a class="anchor" aria-label="anchor" href="#challenge-2"></a>
 </h3>
 <div class="callout-content">
-<p>We also want to move the data that we downloaded from the <a href="https://datacarpentry.org/geospatial-workshop/data/" class="external-link">data page</a>
-into a subdirectory inside <code>r-geospatial</code>. If you haven’t
-already downloaded the data, you can do so by clicking <a href="https://ndownloader.figshare.com/articles/2009586/versions/10" class="external-link">this
-download link</a>.</p>
+<p>We also want to move the data that we downloaded from the <a href="https://cobalt-casco.github.io/geospatial-workshop/data/" class="external-link">data
+page</a> into a subdirectory inside <code>r-geospatial</code>. If you
+haven’t already downloaded the data, you can do so by clicking <a href="https://ndownloader.figshare.com/articles/24942900/" class="external-link">this download
+link</a>.</p>
 <ol style="list-style-type: decimal"><li>Move the downloaded zip file to the <code>data</code>
 directory.</li>
 <li>Once the data have been moved, unzip all files.</li>
@@ -516,18 +504,14 @@ directory.</li>
 </div>
 <p>Once you have completed moving the data across to the new folder,
 your data directory should look as follows:</p>
-<pre><code>data/
-   gapminder_data.csv
-   NEON-DS-Airborne-Remote-Sensing/
-   NEON-DS-Landsat-NDVI/
-   NEON-DS-Met-Time-Series/
-   NEON-DS-Site-Layout-Files/
-   NEON-DS-Airborne-Remote-Sensing.zip
-   NEON-DS-Landsat-NDVI.zip
-   NEON-DS-Met-Time-Series.zip
-   NEON-DS-Site-Layout-Files.zip
-   nordic-data.csv
-   nordic-data-2.csv</code></pre>
+<pre><code><span><span class="va">data</span><span class="op">/</span></span>
+<span>     <span class="va">casco_kelp_urchin.csv</span></span>
+<span>     <span class="va">dmr_kelp_urchin.csv</span></span>
+<span>     <span class="va">landsat_casco</span></span>
+<span>     <span class="va">maine_dmr</span></span>
+<span>     <span class="va">maine_gov_maps</span></span>
+<span>     <span class="va">maine_gov_seagrass</span></span>
+<span>     <span class="va">modis</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="stage-your-scripts">Stage your scripts<a class="anchor" aria-label="anchor" href="#stage-your-scripts"></a></h3>
@@ -540,7 +524,7 @@ re-download data unnecessarily.</p>
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
 </h3>
 <div class="callout-content">
 <ul><li>Use RStudio to create and manage projects with consistent
@@ -572,13 +556,13 @@ layout.</li>
 
       </div><!--/div.row-->
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
-				<p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
+        <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/02-project-intro.Rmd" class="external-link">Edit on GitHub</a>
         
 	
-        | <a href="https://github.com/datacarpentry/r-intro-geospatial/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a> 
+        | <a href="https://github.com/datacarpentry/r-intro-geospatial/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/datacarpentry/r-intro-geospatial/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/datacarpentry/r-intro-geospatial/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
@@ -586,15 +570,13 @@ layout.</li>
         
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
-        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.15.0" class="external-link">sandpaper (0.15.0)</a>,
-        <a href="https://github.com/carpentries/pegboard/tree/0.7.3" class="external-link">pegboard (0.7.3)</a>,
-      and <a href="https://github.com/carpentries/varnish/tree/0.4.0" class="external-link">varnish (0.4.0)</a>.</p>
+        <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.3" class="external-link">pegboard (0.7.3)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
 		<a href="#top">
-			<i class="search-icon" data-feather="arrow-up" role="img" aria-label="Back to top"></i><br><span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top
+      <i class="search-icon" data-feather="arrow-up" role="img" aria-label="Back To Top"></i><br><!-- <span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top --><span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top
 		</a>
 	</div>
   <script type="application/ld+json">
@@ -602,6 +584,7 @@ layout.</li>
   "@context": "https://schema.org",
   "@type": "TrainingMaterial",
   "@id": "https://datacarpentry.github.io/r-intro-geospatial/02-project-intro.html",
+  "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
@@ -610,8 +593,8 @@ layout.</li>
   "url": "https://datacarpentry.github.io/r-intro-geospatial/02-project-intro.html",
   "identifier": "https://datacarpentry.github.io/r-intro-geospatial/02-project-intro.html",
   "dateCreated": "2018-04-05",
-  "dateModified": "2023-11-21",
-  "datePublished": "2023-12-12"
+  "dateModified": "2024-01-04",
+  "datePublished": "2024-01-04"
 }
 
   </script><script>
