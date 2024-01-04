@@ -177,7 +177,7 @@ from the years 2001 - 2012.
 First we create a new object with
 our filtered and averaged
 
-```{r ch2-sol}
+```{r ch2-sol, message = FALSE}
 dmr_small_2 <- dmr |>
   filter(region %in% c("Casco Bay", "Downeast"),
          year %in% 2001:2012) |>
