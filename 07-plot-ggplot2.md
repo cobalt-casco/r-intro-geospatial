@@ -19,7 +19,15 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+Let's start by loading data to plot. For convenience, let's make site a character.
 
+
+```r
+library(dplyr)
+
+dmr <- read.csv("data/dmr_kelp_urchin.csv") |>
+  mutate(site = as.character(site))
+```
 
 Plotting our data is one of the best ways to quickly explore it and the various
 relationships between variables. There are three main plotting systems in R, the
@@ -31,7 +39,7 @@ effective for creating publication quality graphics. In this episode, we will
 introduce the key features of a ggplot and make a few example plots. We will
 expand on these concepts and see how they apply to geospatial data types when we
 start working with geospatial data in the [R for Raster and Vector
-Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson.
+Data](https://cobalt-casco.github.io/r-raster-vector-geospatial/) lesson.
 
 :::::::::::::::::::::::::::::::::::::::  instructor
 
@@ -65,26 +73,27 @@ want to show on our figure, in this example we use the gapminder data we read in
 earlier. For the second argument we pass in the `aes()` function, which
 tells `ggplot` how variables in the data map to aesthetic properties of
 the figure. Here we will tell `ggplot` we
-want to plot the "lifeExp" column of the gapminder data frame on the x-axis. We don't need to specify a y-axis
-for histograms.
+want to plot the "kelp" column of the dmr data frame on the x-axis. We don't need to specify a y-axis for histograms.
 
 
 ```r
-library("ggplot2")
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+library(ggplot2)
+
+ggplot(data = dmr, 
+       mapping = aes(x = kelp)) +   
   geom_histogram()
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter-1.png" alt="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75"  />
-<p class="caption">Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75</p>
+<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter-1.png" alt="Histogram of histogram of kelp percent cover sampled by the DMR"  />
+<p class="caption">Histogram of histogram of kelp percent cover sampled by the DMR</p>
 </div>
 
 By itself, the call to `ggplot` isn't enough to draw a figure:
 
 
 ```r
-ggplot(data = gapminder, aes(x = lifeExp))
+ggplot(data = dmr, aes(x = kelp))
 ```
 
 <img src="fig/07-plot-ggplot2-rendered-blank-plot-1.png" style="display: block; margin: auto;" />
@@ -92,11 +101,11 @@ ggplot(data = gapminder, aes(x = lifeExp))
 We need to tell `ggplot` how we want to visually represent the data, which we
 do by adding a geom layer. In our example, we used `geom_histogram()`, which
 tells `ggplot` we want to visually represent the
-distribution of one variable (in our case "lifeExp"):
+distribution of one variable (in our case "kelp"):
 
 
 ```r
-ggplot(data = gapminder, aes(x = lifeExp)) +   
+ggplot(data = dmr, aes(x = kelp)) +   
   geom_histogram()
 ```
 
@@ -104,18 +113,15 @@ ggplot(data = gapminder, aes(x = lifeExp)) +
 `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<div class="figure" style="text-align: center">
-<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter2-1.png" alt="Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75"  />
-<p class="caption">Histogram of life expectancy by country showing bimodal distribution with modes at 45 and 75</p>
-</div>
+<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter2-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 1
 
 Modify the example so that the figure shows the
-distribution of gdp per capita, rather than life
-expectancy:
+distribution of urchin counts, rather than kelp 
+percent cover:
 
 :::::::::::::::  solution
 
@@ -123,7 +129,8 @@ expectancy:
 
 
 ```r
-ggplot(data = gapminder, aes(x = gdpPercap)) +   
+ggplot(data = dmr, 
+       mapping = aes(x = urchin)) +   
  geom_histogram()
 ```
 
@@ -138,25 +145,27 @@ ggplot(data = gapminder, aes(x = gdpPercap)) +
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 The histogram is a useful tool for visualizing the
-distribution of a single categorical variable. What if
-we want to compare the gdp per capita of the countries in
+distribution of a single continuous variable. What if
+we want to compare the kelp cover of the regions in
 our dataset? We can use a bar (or column) plot.
-To simplify our plot, let's look at data only from the most
-recent year and only
-from countries in the Americas.
+To simplify our plot, let's look at data only from 2007 and only
+from sites in the Casco Bay. 
 
 
 ```r
-gapminder_small <- filter(gapminder, year == 2007, continent == "Americas")
+dmr_small <- dmr |>
+  filter(year == 2007, 
+         region == "Casco Bay") 
 ```
 
 This time, we will use the `geom_col()` function as our geometry.
-We will plot countries on the x-axis (listed in alphabetic order
-by default) and gdp per capita on the y-axis.
+We will plot sites on the x-axis (listed in alphabetic order
+by default) and kelp on the y-axis.
 
 
 ```r
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = dmr_small, 
+       mapping = aes(x = site, y = kelp)) + 
   geom_col()
 ```
 
@@ -171,7 +180,8 @@ function to the end of our plot code.
 
 
 ```r
-ggplot(data = gapminder_small, aes(x = country, y = gdpPercap)) + 
+ggplot(data = dmr_small, 
+       mapping = aes(x = site, y = kelp)) + 
   geom_col() +
   coord_flip()
 ```
@@ -191,25 +201,26 @@ later in this workshop.
 
 In the previous examples and challenge we've used the `aes` function to tell
 the `geom_histogram()` and `geom_col()` functions which columns
-of the
-data set to plot.
+of the data set to plot.
 Another aesthetic property we can modify is the
-color. Create a new bar (column) plot showing the gdp per capita
-of all countries in the Americas for the years 1952 and 2007,
-color coded by year.
+color. Create a new bar (column) plot showing the average kelp
+abundance over time in Casco Bay and Downeast color coded by year
+from the years 2001 - 2012.
 
 :::::::::::::::  solution
 
 ## Solution to challenge 2
 
 First we create a new object with
-our filtered data:
+our filtered and averaged
 
 
 ```r
-gapminder_small_2 <- gapminder %>%
-                        filter(continent == "Americas",
-                               year %in% c(1952, 2007))
+dmr_small_2 <- dmr |>
+  filter(region %in% c("Casco Bay", "Downeast"),
+         year %in% 2001:2012) |>
+  group_by(region, year) |>
+  summarize(kelp = mean(kelp))
 ```
 
 Then we plot that data using the `geom_col()`
@@ -223,9 +234,9 @@ is "stack".
 
 
 ```r
-ggplot(gapminder_small_2, 
-       aes(x = country, y = gdpPercap, 
-       fill = as.factor(year))) +
+ggplot(dmr_small_2, 
+       aes(x = as.character(year), y = kelp, 
+       fill = region)) +
    geom_col(position = "dodge") + 
    coord_flip()
 ```

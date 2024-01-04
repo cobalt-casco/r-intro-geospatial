@@ -26,6 +26,22 @@ for the code in this episode to work.
 ::::::::::::::::::::::::::::::::::::::::
 
 
+Let's begin by loading libraries and some data.
+
+```r
+library(ggplot2)
+library(dplyr)
+
+dmr <- read.csv("data/dmr_kelp_urchin.csv") 
+```
+
+We will also want to create a directory to save cleaned data and figures.
+
+
+```r
+dir.create("cleaned-data")
+dir.create("figures")
+```
 
 ## Saving plots
 
@@ -44,12 +60,12 @@ using the arguments to this function.
 
 
 ```r
-pdf("Distribution-of-gdpPercap.pdf", width=12, height=4)
-ggplot(data = gapminder, aes(x = gdpPercap)) +   
+pdf("figures/Distribution-of-kelp.pdf", width=12, height=4)
+
+ggplot(data = dmr, aes(x = kelp)) +   
   geom_histogram()
 
 # You then have to make sure to turn off the pdf device!
-
 dev.off()
 ```
 
@@ -61,9 +77,7 @@ Open up this document and have a look.
 
 Rewrite your 'pdf' command to print a second
 page in the pdf, showing the side-by-side bar
-plot of gdp per capita in countries in the Americas
-in the years 1952 and 2007 that you created in the
-previous episode.
+plot of urchins in the data.
 
 :::::::::::::::  solution
 
@@ -71,12 +85,16 @@ previous episode.
 
 
 ```r
-pdf("Distribution-of-gdpPercap.pdf", width = 12, height = 4)
-ggplot(data = gapminder, aes(x = gdpPercap)) + 
+pdf("figures/Distribution-of-kelp-urchins.pdf", width = 12, height = 4)
+
+ggplot(data = dmr, 
+       mapping = aes(x = kelp)) + 
 geom_histogram()
 
-ggplot(data = gapminder_small_2, aes(x = country, y = gdpPercap, fill = as.factor(year))) +
-geom_col(position = "dodge") + coord_flip()
+ggplot(data = dmr, 
+       mapping = aes(x = urchin)) +
+  geom_histogram() +
+  coord_flip()
 
 dev.off()
 ```
@@ -86,7 +104,30 @@ dev.off()
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 The commands `jpeg`, `png`, etc. are used similarly to produce
-documents in different formats.
+documents in different formats. You can also use `ggsave()` to save whatever 
+your last plot was. For example, let's say we made a neat plot using 
+`geom_point()` to show the relationship between kelp and urchins colored
+by region. We want to 
+save it as a jpeg. `ggsave()` will dynamically figure out your filetype from
+the file name.
+
+
+```r
+ggplot(dmr,
+       aes(x = urchin, y = kelp,
+           color = region)) +
+  geom_point()
+```
+
+<img src="fig/08-writing-data-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+```r
+ggsave("figures/kelp_urchin.jpg")
+```
+
+```{.output}
+Saving 7 x 7 in image
+```
 
 ## Writing data
 
@@ -100,10 +141,11 @@ only want to focus on the gapminder data for Australia:
 
 
 ```r
-aust_subset <- filter(gapminder, country == "Australia")
+downeast_subset <- dmr |>
+  filter(region == "Downeast")
 
-write.csv(aust_subset,
-  file="cleaned-data/gapminder-aus.csv"
+write.csv(downeast_subset,
+  file="cleaned-data/dmr_downeast.csv"
 )
 ```
 
@@ -112,7 +154,7 @@ Let's open the file to make sure it contains the data we expect. Navigate to you
 computer's default for opening files with a `.csv` extension. To open in a specific
 application, right click and select the application. Using a spreadsheet program
 (like Excel) to open this file shows us that we do have properly formatted data
-including only the data points from Australia. However, there are row numbers
+including only the data points from Downeast. However, there are row numbers
 associated with the data that are not useful to us (they refer to the row numbers
 from the gapminder data frame).
 
@@ -131,8 +173,8 @@ To over write this behavior, we can do the following:
 
 ```r
 write.csv(
-  aust_subset,
-  file="cleaned-data/gapminder-aus.csv",
+  downeast_subset,
+  file = "cleaned-data/dmr_downeast.csv",
   row.names=FALSE
 )
 ```
@@ -141,9 +183,9 @@ write.csv(
 
 ## Challenge 2
 
-Subset the gapminder
-data to include only data points collected since 1990. Write out the new subset to a file
-in the `cleaned-data/` directory.
+Subset the dmr
+data to include only data points collected since 2012. 
+Write out the new subset to a file in the `cleaned-data/` directory.
 
 :::::::::::::::  solution
 
@@ -151,10 +193,10 @@ in the `cleaned-data/` directory.
 
 
 ```r
-gapminder_after_1990 <- filter(gapminder, year > 1990)
+dmr_after_2012 <- filter(dmr, year > 2012)
 
-write.csv(gapminder_after_1990,
-  file = "cleaned-data/gapminder-after-1990.csv",
+write.csv(dmr_after_2012,
+  file = "cleaned-data/dmr_after_2012.csv",
   row.names = FALSE)
 ```
 

@@ -30,7 +30,7 @@ save this data as an object named `nordic`:
 
 
 ```r
-nordic <- read.csv("data/nordic-data.csv")
+casco_dmr <- read.csv("data/casco_kelp_urchin.csv")
 ```
 
 The `read.table` function is used for reading in tabular data stored in a text
@@ -43,46 +43,95 @@ where the data are separated with tabs. Of these three functions `read.csv` is
 the most commonly used.  If needed it is possible to override the default
 delimiting punctuation marks for both `read.csv` and `read.delim`.
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Miscellaneous Tips
+
+- Files can also be downloaded directly from the Internet into a local folder
+  of your choice onto your computer using the `download.file` function. The
+  `read.csv` function can then be executed to read the downloaded file from the
+  download location, for example,
+
+
+```r
+download.file("https://cobalt-casco.github.io/r-intro-geospatial/data/casco_kelp_urchin.csv",
+              destfile = "data/casco_kelp_urchin.csv")
+casco_dmr <- read.csv("data/casco_kelp_urchin.csv")
+```
+
+- Alternatively, you can also read in files directly into R from the Internet
+  by replacing the file paths with a web address in `read.csv`. One should
+  note that in doing this no local copy of the csv file is first saved onto
+  your computer. For example,
+
+
+```r
+casco_dmr <- read.csv("https://cobalt-casco.github.io/r-intro-geospatial/data/casco_kelp_urchin.csv") 
+```
+
+- You can read directly from excel spreadsheets without
+  converting them to plain text first by using the [readxl](https://cran.r-project.org/package=readxl) package.
+  
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 We can begin exploring our dataset right away, pulling out columns by specifying
 them using the `$` operator:
 
 
 ```r
-nordic$country
+casco_dmr$year
 ```
 
 ```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
+ [1] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 2002 2002 2002 2002 2002
+[16] 2003 2003 2003 2003 2003 2003 2004 2004 2004 2004 2004 2004 2005 2005 2005
+[31] 2005 2005 2005 2005 2005 2006 2006 2006 2006 2006 2006 2006 2006 2006 2006
+[46] 2007 2007 2007 2007 2007 2007 2007 2008 2008 2008 2008 2008 2008 2009 2009
+[61] 2009 2009 2009 2009 2009 2010 2010 2010 2010 2010 2010 2010 2010 2011 2011
+[76] 2011 2011 2011 2011 2011 2011 2012 2014 2014 2014 2014 2014 2014 2014 2014
 ```
 
 ```r
-nordic$lifeExp
+casco_dmr$kelp
 ```
 
 ```{.output}
-[1] 77.2 80.0 79.0
+ [1]  92.5  59.0   7.7  52.5  29.2 100.0   0.8  87.5  13.0  86.5  96.5  65.0
+[13]   5.0   0.0 100.0  64.0  81.0 100.0  56.0  19.5  31.5  55.0  80.5  68.5
+[25]  43.0  50.0   9.5  30.0  49.0  79.5  44.5  46.5  24.0  50.5  30.5  42.0
+[37]  49.5  51.0  39.0   0.5  71.0  11.0  33.5  75.0  82.5   0.5  35.0   8.5
+[49]  55.5  26.0  87.0  32.5   5.0  16.5 100.0  22.0  97.0  39.0   1.5  71.0
+[61]  10.5  63.0  73.5  70.5  67.5  17.5   7.5   7.0   0.0  69.5  13.5   2.0
+[73]  41.5   7.5  74.5  62.5  76.5  74.5   4.5  71.0   9.5   0.5  46.5  41.5
+[85]  55.0  11.0  63.5  14.5  25.5  31.0
 ```
 
 We can do other operations on the columns. For example, if we discovered that the life expectancy is two years higher:
 
 
 ```r
-nordic$lifeExp + 2
+casco_dmr$year + 2
 ```
 
 ```{.output}
-[1] 79.2 82.0 81.0
+ [1] 2003 2003 2003 2003 2003 2003 2003 2004 2004 2004 2004 2004 2004 2004 2004
+[16] 2005 2005 2005 2005 2005 2005 2006 2006 2006 2006 2006 2006 2007 2007 2007
+[31] 2007 2007 2007 2007 2007 2008 2008 2008 2008 2008 2008 2008 2008 2008 2008
+[46] 2009 2009 2009 2009 2009 2009 2009 2010 2010 2010 2010 2010 2010 2011 2011
+[61] 2011 2011 2011 2011 2011 2012 2012 2012 2012 2012 2012 2012 2012 2013 2013
+[76] 2013 2013 2013 2013 2013 2013 2014 2016 2016 2016 2016 2016 2016 2016 2016
 ```
 
 But what about:
 
 
 ```r
-nordic$lifeExp + nordic$country
+casco_dmr$year + casco_dmr$region
 ```
 
 ```{.error}
-Error in nordic$lifeExp + nordic$country: non-numeric argument to binary operator
+Error in casco_dmr$year + casco_dmr$region: non-numeric argument to binary operator
 ```
 
 Understanding what happened here is key to successfully analyzing data in R.
@@ -98,18 +147,18 @@ Understanding what happened here is key to successfully analyzing data in R.
   
 :::::::::::::::::::::::::::::::::::::::
 
-If you guessed that the last command will return an error because `77.2` plus
-`"Denmark"` is nonsense, you're right - and you already have some intuition for an
+If you guessed that the last command will return an error because `2008` plus
+`"Casco Bay"` is nonsense, you're right - and you already have some intuition for an
 important concept in programming called *data classes*. We can ask what class of
 data something is:
 
 
 ```r
-class(nordic$lifeExp)
+class(casco_dmr$year)
 ```
 
 ```{.output}
-[1] "numeric"
+[1] "integer"
 ```
 
 There are 6 main types: `numeric`, `integer`, `complex`, `logical`, `character`, and `factor`.
@@ -168,15 +217,15 @@ complicated our analyses become, all data in R is interpreted a specific
 data class. This strictness has some really important consequences.
 
 A user has added new details of age expectancy. This information is in the file
-`data/nordic-data-2.csv`.
+`data/casco_kelp_urchin_2.csv`.
 
-Load the new nordic data as `nordic_2`, and check what class of data we find in the
-`lifeExp` column:
+Load the new nordic data as `casco_dmr_2`, and check what class of data we find in the
+`year` column:
 
 
 ```r
-nordic_2 <- read.csv("data/nordic-data-2.csv")
-class(nordic_2$lifeExp)
+casco_dmr_2 <- read.csv("data/casco_kelp_urchin_2.csv")
+class(casco_dmr_2$year)
 ```
 
 ```{.output}
@@ -188,11 +237,11 @@ we did on them before, we run into trouble:
 
 
 ```r
-nordic_2$lifeExp + 2
+casco_dmr_2$year + 2
 ```
 
 ```{.error}
-Error in nordic_2$lifeExp + 2: non-numeric argument to binary operator
+Error in casco_dmr_2$year + 2: non-numeric argument to binary operator
 ```
 
 What happened? When R reads a csv file into one of these tables, it insists that
@@ -206,7 +255,7 @@ We can see that it is a dataframe by calling the `class()` function on it:
 
 
 ```r
-class(nordic)
+class(casco_dmr)
 ```
 
 ```{.output}
@@ -265,14 +314,14 @@ empty character strings. If we similarly do
 
 
 ```r
-str(nordic$lifeExp)
+str(casco_dmr$year)
 ```
 
 ```{.output}
- num [1:3] 77.2 80 79
+ int [1:90] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 ...
 ```
 
-we see that `nordic$lifeExp` is a vector, too - the columns of data we load into R
+we see that `casco_dmr$year` is a vector, too - the columns of data we load into R
 data frames are all vectors, and that's the root of why R forces everything in
 a column to be the same basic data type.
 
@@ -311,6 +360,20 @@ combine_vector
 ```{.output}
 [1] 2 6 3
 ```
+
+We can see what is at a certain index of a vector using the `[]` notation. 
+For example, what is the second element of `combine_vector`?
+
+
+```r
+combine_vector[2]
+```
+
+```{.output}
+[1] 6
+```
+
+## Type Coercion
 
 Given what we've learned so far, what do you think the following will produce?
 
@@ -387,7 +450,7 @@ your columns of data frames, or you will get nasty surprises!
 ## Challenge 1
 
 Given what you now know about type conversion, look at the class of
-data in `nordic_2$lifeExp` and compare it with `nordic$lifeExp`. Why are
+data in `casco_dmr$year` and compare it with `casco_dmr_2$year`. Why are
 these columns different classes?
 
 :::::::::::::::  solution
@@ -396,23 +459,23 @@ these columns different classes?
 
 
 ```r
-str(nordic_2$lifeExp)
+str(casco_dmr$year)
 ```
 
 ```{.output}
- chr [1:3] "77.2" "80" "79.0 or 83"
+ int [1:90] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 ...
 ```
 
 ```r
-str(nordic$lifeExp)
+str(casco_dmr_2$year)
 ```
 
 ```{.output}
- num [1:3] 77.2 80 79
+ chr [1:90] "year 2001" "2001" "2001" "2001" "2001" "2001" "2001" "2002" ...
 ```
 
-The data in `nordic_2$lifeExp` is stored as a character vector, rather than as
-a numeric vector. This is because of the "or" character string in the third
+The data in `casco_dmr_2$year` is stored as a character vector, rather than as
+a numeric vector. This is because of the "year" character string in the first
 data point.
 
 :::::::::::::::::::::::::
@@ -561,27 +624,27 @@ We said that columns in data frames were vectors:
 
 
 ```r
-str(nordic$lifeExp)
+str(casco_dmr$year)
 ```
 
 ```{.output}
- num [1:3] 77.2 80 79
+ int [1:90] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 ...
 ```
 
 ```r
-str(nordic$year)
+str(casco_dmr$kelp)
 ```
 
 ```{.output}
- int [1:3] 2002 2002 2002
+ num [1:90] 92.5 59 7.7 52.5 29.2 100 0.8 87.5 13 86.5 ...
 ```
 
 ```r
-str(nordic$country)
+str(casco_dmr$region)
 ```
 
 ```{.output}
- chr [1:3] "Denmark" "Sweden" "Norway"
+ chr [1:90] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" ...
 ```
 
 One final important data structure in R is called a "factor". Factors look like 
@@ -595,51 +658,52 @@ the countries in our study:
 
 
 ```r
-nordic_countries <- c('Norway', 'Finland', 'Denmark', 'Iceland', 'Sweden')
-nordic_countries
+maine_regions <- c("York", "Casco Bay", "Midcoast", "Penobscot Bay", "MDI", "Downeast")
+maine_regions
 ```
 
 ```{.output}
-[1] "Norway"  "Finland" "Denmark" "Iceland" "Sweden" 
+[1] "York"          "Casco Bay"     "Midcoast"      "Penobscot Bay"
+[5] "MDI"           "Downeast"     
 ```
 
 ```r
-str(nordic_countries)
+str(maine_regions)
 ```
 
 ```{.output}
- chr [1:5] "Norway" "Finland" "Denmark" "Iceland" "Sweden"
+ chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"
 ```
 
 We can turn a vector into a factor like so:
 
 
 ```r
-categories <- factor(nordic_countries)
-class(categories)
+categories <- factor(maine_regions)
+class(maine_regions)
 ```
 
 ```{.output}
-[1] "factor"
+[1] "character"
 ```
 
 ```r
-str(categories)
+str(maine_regions)
 ```
 
 ```{.output}
- Factor w/ 5 levels "Denmark","Finland",..: 4 2 1 3 5
+ chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"
 ```
 
-Now R has noticed that there are 5 possible categories in our data - but it
+Now R has noticed that there are 6 possible categories in our data - but it
 also did something surprising; instead of printing out the strings we gave it,
 we got a bunch of numbers instead. R has replaced our human-readable categories
 with numbered indices under the hood, this is necessary as many statistical
-calculations utilise such numerical representations for categorical data:
+calculations utilize such numerical representations for categorical data:
 
 
 ```r
-class(nordic_countries)
+class(maine_regions)
 ```
 
 ```{.output}
@@ -654,34 +718,19 @@ class(categories)
 [1] "factor"
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Challenge
-
-Can you guess why these numbers are used to represent these countries?
-
-:::::::::::::::  solution
-
-## Solution
-
-They are sorted in alphabetical order
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 3
 
-Convert the `country` column of our `nordic` data frame to a factor. Then try
+Convert the `region` column of our `casco_dmr` data frame to a factor. Then try
 converting it back to a character vector. 
 
-Now try converting `lifeExp` in our `nordic` data frame to a factor, then back
+Now try converting `year` in our `casco_dmr` data frame to a factor, then back
 to a numeric vector. What happens if you use `as.numeric()`?
 
-Remember that you can reload the `nordic` data frame using 
-`read.csv("data/nordic-data.csv")` if you accidentally lose some data!
+Remember that you can reload the `casco_dmr` data frame using 
+`read.csv("data/casco_kelp_urchin.csv")` if you accidentally lose some data!
 
 :::::::::::::::  solution
 
@@ -692,49 +741,83 @@ function:
 
 
 ```r
-nordic$country <- factor(nordic$country)
-nordic$country
+casco_dmr$region <- factor(casco_dmr$region)
+casco_dmr$region
 ```
 
 ```{.output}
-[1] Denmark Sweden  Norway 
-Levels: Denmark Norway Sweden
+ [1] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+ [8] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[15] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[22] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[29] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[36] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[43] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[50] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[57] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[64] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[71] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[78] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+[85] Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay Casco Bay
+Levels: Casco Bay
 ```
 
 You can convert these back to character vectors using `as.character()`:
 
 
 ```r
-nordic$country <- as.character(nordic$country)
-nordic$country
+casco_dmr$region <- as.character(casco_dmr$region)
+casco_dmr$region
 ```
 
 ```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
+ [1] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+ [7] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[13] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[19] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[25] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[31] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[37] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[43] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[49] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[55] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[61] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[67] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[73] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[79] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
+[85] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"
 ```
 
 You can convert numeric vectors to factors in the exact same way:
 
 
 ```r
-nordic$lifeExp <- factor(nordic$lifeExp)
-nordic$lifeExp
+casco_dmr$year <- factor(casco_dmr$year)
+casco_dmr$year
 ```
 
 ```{.output}
-[1] 77.2 80   79  
-Levels: 77.2 79 80
+ [1] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 2002 2002 2002 2002 2002
+[16] 2003 2003 2003 2003 2003 2003 2004 2004 2004 2004 2004 2004 2005 2005 2005
+[31] 2005 2005 2005 2005 2005 2006 2006 2006 2006 2006 2006 2006 2006 2006 2006
+[46] 2007 2007 2007 2007 2007 2007 2007 2008 2008 2008 2008 2008 2008 2009 2009
+[61] 2009 2009 2009 2009 2009 2010 2010 2010 2010 2010 2010 2010 2010 2011 2011
+[76] 2011 2011 2011 2011 2011 2011 2012 2014 2014 2014 2014 2014 2014 2014 2014
+Levels: 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2014
 ```
 
 But be careful -- you can't use `as.numeric()` to convert factors to numerics!
 
 
 ```r
-as.numeric(nordic$lifeExp)
+as.numeric(casco_dmr$year)
 ```
 
 ```{.output}
-[1] 1 3 2
+ [1]  1  1  1  1  1  1  1  2  2  2  2  2  2  2  2  3  3  3  3  3  3  4  4  4  4
+[26]  4  4  5  5  5  5  5  5  5  5  6  6  6  6  6  6  6  6  6  6  7  7  7  7  7
+[51]  7  7  8  8  8  8  8  8  9  9  9  9  9  9  9 10 10 10 10 10 10 10 10 11 11
+[76] 11 11 11 11 11 11 12 13 13 13 13 13 13 13 13
 ```
 
 Instead, `as.numeric()` converts factors to those "numbers under the hood" we 
@@ -743,13 +826,18 @@ into a character vector, and _then_ turn that into a numeric vector:
 
 
 ```r
-nordic$lifeExp <- as.character(nordic$lifeExp)
-nordic$lifeExp <- as.numeric(nordic$lifeExp)
-nordic$lifeExp
+casco_dmr$year <- as.character(casco_dmr$year)
+casco_dmr$year <- as.numeric(casco_dmr$year)
+casco_dmr$year
 ```
 
 ```{.output}
-[1] 77.2 80.0 79.0
+ [1] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 2002 2002 2002 2002 2002
+[16] 2003 2003 2003 2003 2003 2003 2004 2004 2004 2004 2004 2004 2005 2005 2005
+[31] 2005 2005 2005 2005 2005 2006 2006 2006 2006 2006 2006 2006 2006 2006 2006
+[46] 2007 2007 2007 2007 2007 2007 2007 2008 2008 2008 2008 2008 2008 2009 2009
+[61] 2009 2009 2009 2009 2009 2010 2010 2010 2010 2010 2010 2010 2010 2011 2011
+[76] 2011 2011 2011 2011 2011 2011 2012 2014 2014 2014 2014 2014 2014 2014 2014
 ```
 
 Note: new students find the help files difficult to understand; make sure to let them know
@@ -779,273 +867,56 @@ In this case, we've explicitly told R that "control" should represented by 1,
 and "case" by 2. This designation can be very important for interpreting the
 results of statistical models!
 
-## Lists
-
-Another data structure you'll want in your bag of tricks is the `list`. A list
-is simpler in some ways than the other types, because you can put anything you
-want in it:
+To know what the levels map to, we can use `levels()` for factors. 
+To do the same for characters, we can use `unique()`.
 
 
 ```r
-list_example <- list(1, "a", TRUE, c(2, 6, 7))
-list_example
+levels(factor_ordering_example)
 ```
 
 ```{.output}
-[[1]]
-[1] 1
-
-[[2]]
-[1] "a"
-
-[[3]]
-[1] TRUE
-
-[[4]]
-[1] 2 6 7
+[1] "control" "case"   
 ```
 
 ```r
-another_list <- list(title = "Numbers", numbers = 1:10, data = TRUE )
-another_list
+unique(mydata)
 ```
 
 ```{.output}
-$title
-[1] "Numbers"
-
-$numbers
- [1]  1  2  3  4  5  6  7  8  9 10
-
-$data
-[1] TRUE
+[1] "case"    "control"
 ```
 
-We can now understand something a bit surprising in our data frame; what happens if we compare `str(nordic)` and `str(another_list)`:
+Note that the order is different - for `unique()` it's based on the order of 
+observation in the vector. For levels, it's been set. If we want to sort from
+`unique()`, which can be very useful, we can try
 
 
 ```r
-str(nordic)
+non_alpha_vector <- c("b", "a", "c")
+
+unique(non_alpha_vector)
 ```
 
 ```{.output}
-'data.frame':	3 obs. of  3 variables:
- $ country: chr  "Denmark" "Sweden" "Norway"
- $ year   : int  2002 2002 2002
- $ lifeExp: num  77.2 80 79
+[1] "b" "a" "c"
 ```
 
 ```r
-str(another_list)
+sort( unique(non_alpha_vector) )
 ```
 
 ```{.output}
-List of 3
- $ title  : chr "Numbers"
- $ numbers: int [1:10] 1 2 3 4 5 6 7 8 9 10
- $ data   : logi TRUE
+[1] "a" "b" "c"
 ```
 
-We see that the output for these two objects look very similar. It is because
-data frames are lists 'under the hood'. Data frames are a special case of lists where each element (the columns of the data frame) have the same lengths.
 
-In our `nordic` example, we have an integer, a double and a logical variable. As
-we have seen already, each column of data frame is a vector.
-
-
-```r
-nordic$country
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-```r
-nordic[, 1]
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-```r
-class(nordic[, 1])
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-str(nordic[, 1])
-```
-
-```{.output}
- chr [1:3] "Denmark" "Sweden" "Norway"
-```
-
-Each row is an *observation* of different variables, itself a data frame, and
-thus can be composed of elements of different types.
-
-
-```r
-nordic[1, ]
-```
-
-```{.output}
-  country year lifeExp
-1 Denmark 2002    77.2
-```
-
-```r
-class(nordic[1, ])
-```
-
-```{.output}
-[1] "data.frame"
-```
-
-```r
-str(nordic[1, ])
-```
-
-```{.output}
-'data.frame':	1 obs. of  3 variables:
- $ country: chr "Denmark"
- $ year   : int 2002
- $ lifeExp: num 77.2
-```
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Challenge 4
-
-There are several subtly different ways to call variables, observations and
-elements from data frames:
-
-- `nordic[1]`
-- `nordic[[1]]`
-- `nordic$country`
-- `nordic["country"]`
-- `nordic[1, 1]`
-- `nordic[, 1]`
-- `nordic[1, ]`
-
-Try out these examples and explain what is returned by each one.
-
-*Hint:* Use the function `class()` to examine what is returned in each case.
-
-:::::::::::::::  solution
-
-## Solution to Challenge 4
-
-
-```r
-nordic[1]
-```
-
-```{.output}
-  country
-1 Denmark
-2  Sweden
-3  Norway
-```
-
-We can think of a data frame as a list of vectors. The single brace `[1]`
-returns the first slice of the list, as another list. In this case it is the
-first column of the data frame.
-
-
-```r
-nordic[[1]]
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-The double brace `[[1]]` returns the contents of the list item. In this case
-it is the contents of the first column, a *vector* of type *character*.
-
-
-```r
-nordic$country
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-This example uses the `$` character to address items by name. *country* is the
-first column of the data frame, again a *vector* of type *character*.
-
-
-```r
-nordic["country"]
-```
-
-```{.output}
-  country
-1 Denmark
-2  Sweden
-3  Norway
-```
-
-Here we are using a single brace `["country"]` replacing the index number
-with the column name. Like example 1, the returned object is a *list*.
-
-
-```r
-nordic[1, 1]
-```
-
-```{.output}
-[1] "Denmark"
-```
-
-This example uses a single brace, but this time we provide row and column
-coordinates. The returned object is the value in row 1, column 1. The object
-is an *character*: the first value of the first vector in our `nordic` object.
-
-
-```r
-nordic[, 1]
-```
-
-```{.output}
-[1] "Denmark" "Sweden"  "Norway" 
-```
-
-Like the previous example we use single braces and provide row and column
-coordinates. The row coordinate is not specified, R interprets this missing
-value as all the elements in this *column* *vector*.
-
-
-```r
-nordic[1, ]
-```
-
-```{.output}
-  country year lifeExp
-1 Denmark 2002    77.2
-```
-
-Again we use the single brace with row and column coordinates. The column
-coordinate is not specified. The return value is a *list* containing all the
-values in the first row.
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - Use `read.csv` to read tabular data in R.
 - The basic data types in R are double, integer, complex, logical, and character.
-- Use factors to represent categories in R.
+- Use characters and factors to represent categories in R.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 

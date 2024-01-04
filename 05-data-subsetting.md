@@ -503,61 +503,81 @@ the rest of the workshop focus on `dplyr` syntax.
 
 :::::::::::::::::::::::::::::::::::::::::
 
-Remember the data frames are lists underneath the hood, so similar rules
-apply. However they are also two dimensional objects:
+Data frames are an object type called a list underneath the hood, so the rules
+are slightly different. However they are also two dimensional objects.
 
-`[` with one argument will act the same way as for lists, where each list
-element corresponds to a column. The resulting object will be a data frame:
+Let's look at the Casco Bay DMR kelp-urchin data again.
 
 
 ```r
-head(gapminder[3])
+casco_dmr <- read.csv("data/casco_kelp_urchin.csv")
+```
+
+`[` with one argument will extract a column - each
+element of the data frame corresponds to a column. 
+The resulting object will be a data frame:
+
+
+```r
+head(casco_dmr[3])
 ```
 
 ```{.output}
-       pop
-1  8425333
-2  9240934
-3 10267083
-4 11537966
-5 13079460
-6 14880372
+  exposure.code
+1             2
+2             2
+3             3
+4             2
+5             2
+6             1
+```
+
+```r
+class(casco_dmr[3])
+```
+
+```{.output}
+[1] "data.frame"
 ```
 
 Similarly, `[[` will act to extract *a single column*:
 
 
 ```r
-head(gapminder[["lifeExp"]])
+head(casco_dmr[["exposure.code"]])
 ```
 
 ```{.output}
-[1] 28.801 30.332 31.997 34.020 36.088 38.438
+[1] 2 2 3 2 2 1
 ```
 
 And `$` provides a convenient shorthand to extract columns by name:
 
 
 ```r
-head(gapminder$year)
+head(casco_dmr$exposure.code)
 ```
 
 ```{.output}
-[1] 1952 1957 1962 1967 1972 1977
+[1] 2 2 3 2 2 1
 ```
 
 To select specific rows and/or columns, you can provide two arguments to `[`
 
 
 ```r
-gapminder[1:3, ]
+casco_dmr[1:3, ]
 ```
 
 ```{.output}
-      country year      pop continent lifeExp gdpPercap
-1 Afghanistan 1952  8425333      Asia  28.801  779.4453
-2 Afghanistan 1957  9240934      Asia  30.332  820.8530
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+  year    region exposure.code coastal.code latitude longitude depth crust
+1 2001 Casco Bay             2            2 43.72766 -70.10721     5   6.1
+2 2001 Casco Bay             2            2 43.76509 -69.96087     5  31.5
+3 2001 Casco Bay             3            3 43.75199 -69.93420     5  31.5
+  understory kelp urchin month day survey site
+1       38.5 92.5      0     6  15    dmr   66
+2       74.0 59.0      0     6  15    dmr   71
+3       96.5  7.7      0     6  15    dmr   70
 ```
 
 If we subset a single row, the result will be a data frame (because
@@ -565,12 +585,14 @@ the elements are mixed types):
 
 
 ```r
-gapminder[3, ]
+casco_dmr[3, ]
 ```
 
 ```{.output}
-      country year      pop continent lifeExp gdpPercap
-3 Afghanistan 1962 10267083      Asia  31.997  853.1007
+  year    region exposure.code coastal.code latitude longitude depth crust
+3 2001 Casco Bay             3            3 43.75199  -69.9342     5  31.5
+  understory kelp urchin month day survey site
+3       96.5  7.7      0     6  15    dmr   70
 ```
 
 But for a single column the result will be a vector (this can be changed with
@@ -582,25 +604,25 @@ the third argument, `drop = FALSE`).
 
 Fix each of the following common data frame subsetting errors:
 
-1. Extract observations collected for the year 1957
+1. Extract observations collected for the year 2011
   
   
   ```r
-  gapminder[gapminder$year = 1957, ]
+  casco_dmr[casco_dmr$year = 2011, ]
   ```
 
 2. Extract all columns except 1 through to 4
   
   
   ```r
-  gapminder[, -1:4]
+  casco_dmr[, -1:4]
   ```
 
-3. Extract the rows where the life expectancy is longer the 80 years
+3. Extract the rows where the kelp percent cover is greater than 80%
   
   
   ```r
-  gapminder[gapminder$lifeExp > 80]
+  casco_dmr[casco_dmr$kelp > 80]
   ```
 
 4. Extract the first row, and the fourth and fifth columns
@@ -608,7 +630,7 @@ Fix each of the following common data frame subsetting errors:
   
   
   ```r
-  gapminder[1, 4, 5]
+  casco_dmr[1, 4, 5]
   ```
 
 5. Advanced: extract rows that contain information for the years 2002
@@ -616,7 +638,7 @@ Fix each of the following common data frame subsetting errors:
   
   
   ```r
-  gapminder[gapminder$year == 2002 | 2007,]
+  casco_dmr[casco_dmr$year == 2002 | 2007,]
   ```
 
 :::::::::::::::  solution
@@ -625,37 +647,37 @@ Fix each of the following common data frame subsetting errors:
 
 Fix each of the following common data frame subsetting errors:
 
-1. Extract observations collected for the year 1957
+1. Extract observations collected for the year 2011
   
   
   ```r
-  # gapminder[gapminder$year = 1957, ]
-  gapminder[gapminder$year == 1957, ]
+  # casco_dmr[casco_dmr$year = 2011, ]
+  casco_dmr[casco_dmr$year == 2011, ]
   ```
 
 2. Extract all columns except 1 through to 4
   
   
   ```r
-  # gapminder[, -1:4]
-  gapminder[,-c(1:4)]
+  # casco_dmr[, -1:4]
+  casco_dmr[,-c(1:4)]
   ```
 
-3. Extract the rows where the life expectancy is longer the 80 years
+3. Extract the rows where the kelp cover is greater than 80%
   
   
   ```r
-  # gapminder[gapminder$lifeExp > 80]
-  gapminder[gapminder$lifeExp > 80,]
+  # casco_dmr[casco_dmr$kelp > 80]
+  casco_dmr[casco_dmr$kelp > 80,]
   ```
 
 4. Extract the first row, and the fourth and fifth columns
-  (`lifeExp` and `gdpPercap`).
+  (`coastal.code` and `latitude`).
   
   
   ```r
-  # gapminder[1, 4, 5]
-  gapminder[1, c(4, 5)]
+  # casco_dmr[1, 4, 5]
+  casco_dmr[1, c(4, 5)]
   ```
 
 5. Advanced: extract rows that contain information for the years 2002
@@ -663,9 +685,9 @@ Fix each of the following common data frame subsetting errors:
   
   
   ```r
-  # gapminder[gapminder$year == 2002 | 2007,]
-  gapminder[gapminder$year == 2002 | gapminder$year == 2007,]
-  gapminder[gapminder$year %in% c(2002, 2007),]
+  # casco_dmr[casco_dmr$year == 2002 | 2007,]
+  casco_dmr[casco_dmr$year == 2002 | casco_dmr$year == 2007,]
+  casco_dmr[casco_dmr$year %in% c(2002, 2007),]
   ```
 
 :::::::::::::::::::::::::
@@ -676,22 +698,22 @@ Fix each of the following common data frame subsetting errors:
 
 ## Challenge 4
 
-1. Why does `gapminder[1:20]` return an error? How does it differ from
-  `gapminder[1:20, ]`?
+1. Why does `casco_dmr[1:20]` return an error? How does it differ from
+  `casco_dmr[1:20, ]`?
 
-2. Create a new `data.frame` called `gapminder_small` that only contains rows
+2. Create a new `data.frame` called `casco_dmr_small` that only contains rows
   1 through 9 and 19 through 23. You can do this in one or two steps.
 
 :::::::::::::::  solution
 
 ## Solution to challenge 4
 
-1. `gapminder` is a data.frame so it needs to be subsetted on two dimensions. `gapminder[1:20, ]` subsets the data to give the first 20 rows and all columns.
+1. `casco_dmr` is a data.frame so it needs to be subsetted on two dimensions. `casco_dmr[1:20, ]` subsets the data to give the first 20 rows and all columns.
 
 2. 
 
 ```r
-gapminder_small <- gapminder[c(1:9, 19:23),]
+casco_dmr_small <- casco_dmr[c(1:9, 19:23),]
 ```
 
 :::::::::::::::::::::::::
