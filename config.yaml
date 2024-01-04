@@ -63,7 +63,7 @@ episodes:
 - 02-project-intro.Rmd
 - 03-data-structures-part1.Rmd
 #- 04-data-structures-part2.Rmd
-#- 05-data-subsetting.Rmd
+- 05-data-subsetting.Rmd
 #- 06-dplyr.Rmd
 #- 07-plot-ggplot2.Rmd
 #- 08-writing-data.Rmd
