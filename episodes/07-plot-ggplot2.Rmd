@@ -21,7 +21,9 @@ source: Rmd
 
 Let's start by loading data to plot. For convenience, let's make site a character.
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
+library(dplyr)
+
 dmr <- read.csv("data/dmr_kelp_urchin.csv") |>
   mutate(site = as.character(site))
 ```

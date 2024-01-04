@@ -27,7 +27,7 @@ for the code in this episode to work.
 
 
 Let's begin by loading libraries and some data.
-```{r}
+```{r, message=FALSE}
 library(ggplot2)
 library(dplyr)
 
