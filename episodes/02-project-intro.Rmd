@@ -200,7 +200,7 @@ We will load and inspect these data later.
 
 We also want to move the data that we downloaded from the [data page](https://cobalt-casco.github.io/geospatial-workshop/data/) into a subdirectory
 inside `r-geospatial`. If you haven't already downloaded the data, you can do so by clicking
-[this download link](https://ndownloader.figshare.com/articles/24942900/).
+[this download link](https://figshare.com/ndownloader/files/43910115).
 
 1. Move the downloaded zip file to the `data` directory.
 2. Once the data have been moved, unzip all files.
