@@ -56,7 +56,7 @@ save you some typing. As an added bonus, you might even find the `dplyr` grammar
 easier to read.
 
 Here we're going to cover 6 of the most commonly used functions as well as using
-pipes (`%>%`) to combine them.
+pipes (`|>`) to combine them.
 
 1. `select()`
 2. `filter()`
@@ -96,15 +96,15 @@ is unlike anything we've seen in R before, let's repeat what we've done above
 using pipes.
 
 ```{r}
-year_country_gdp <- gapminder %>% select(year,country,gdpPercap)
+year_country_gdp <- gapminder |> select(year,country,gdpPercap)
 ```
 
 To help you understand why we wrote that in that way, let's walk through it step
 by step. First we summon the `gapminder` data frame and pass it on, using the
-pipe symbol `%>%`, to the next step, which is the `select()` function. In this
+pipe symbol `|>`, to the next step, which is the `select()` function. In this
 case we don't specify which data object we use in the `select()` function since
 in gets that from the previous pipe. **Fun Fact**: You may have encountered
-pipes before in the shell. In R, a pipe symbol is `%>%` while in the shell it is
+pipes before in the shell. In R, a pipe symbol is `|>` while in the shell it is
 `|` but the concept is the same!
 
 ## Using `filter()`
@@ -113,8 +113,8 @@ If we now wanted to move forward with the above, but only with European
 countries, we can combine `select` and `filter`
 
 ```{r}
-year_country_gdp_euro <- gapminder %>%
-  filter(continent == "Europe") %>%
+year_country_gdp_euro <- gapminder |>
+  filter(continent == "Europe") |>
   select(year, country, gdpPercap)
 ```
 
@@ -132,8 +132,8 @@ have and why?
 ## Solution to Challenge 1
 
 ```{r}
-year_country_lifeExp_Africa <- gapminder %>%
-                           filter(continent=="Africa") %>%
+year_country_lifeExp_Africa <- gapminder |>
+                           filter(continent=="Africa") |>
                            select(year,country,lifeExp)
 ```
 
@@ -159,7 +159,7 @@ could have used in filter.
 ```{r}
 str(gapminder)
 
-gapminder %>% group_by(continent) %>% str()
+gapminder |> group_by(continent) |> str()
 ```
 
 You will notice that the structure of the dataframe where we used `group_by()`
@@ -180,8 +180,8 @@ original dataframe into multiple pieces, then we can run functions
 (e.g. `mean()` or `sd()`) within `summarize()`.
 
 ```{r}
-gdp_bycontinents <- gapminder %>%
-  group_by(continent) %>%
+gdp_bycontinents <- gapminder |>
+  group_by(continent) |>
   summarize(mean_gdpPercap = mean(gdpPercap))
 
 gdp_bycontinents
@@ -204,11 +204,11 @@ expectancy and which has the shortest average life expectancy?
 ## Solution to Challenge 2
 
 ```{r}
-lifeExp_bycountry <- gapminder %>%
-   group_by(country) %>%
+lifeExp_bycountry <- gapminder |>
+   group_by(country) |>
    summarize(mean_lifeExp=mean(lifeExp))
 
-lifeExp_bycountry %>%
+lifeExp_bycountry |>
    filter(mean_lifeExp == min(mean_lifeExp) | mean_lifeExp == max(mean_lifeExp))
 ```
 
@@ -219,11 +219,11 @@ from the `dplyr` package. You can use `desc()` inside `arrange()` to sort in
 descending order.
 
 ```{r}
-lifeExp_bycountry %>%
-   arrange(mean_lifeExp) %>%
+lifeExp_bycountry |>
+   arrange(mean_lifeExp) |>
    head(1)
-lifeExp_bycountry %>%
-   arrange(desc(mean_lifeExp)) %>%
+lifeExp_bycountry |>
+   arrange(desc(mean_lifeExp)) |>
    head(1)
 ```
 
@@ -234,16 +234,16 @@ lifeExp_bycountry %>%
 The function `group_by()` allows us to group by multiple variables. Let's group by `year` and `continent`.
 
 ```{r}
-gdp_bycontinents_byyear <- gapminder %>%
-  group_by(continent, year) %>%
+gdp_bycontinents_byyear <- gapminder |>
+  group_by(continent, year) |>
   summarize(mean_gdpPercap = mean(gdpPercap))
 ```
 
 That is already quite powerful, but it gets even better! You're not limited to defining 1 new variable in `summarize()`.
 
 ```{r}
-gdp_pop_bycontinents_byyear <- gapminder %>%
-  group_by(continent,year) %>%
+gdp_pop_bycontinents_byyear <- gapminder |>
+  group_by(continent,year) |>
   summarize(mean_gdpPercap = mean(gdpPercap),
             sd_gdpPercap = sd(gdpPercap),
             mean_pop = mean(pop),
@@ -261,8 +261,8 @@ of one or more columns that contain the groups we are interested in, and we can
 optionally sort the results in descending order by adding `sort=TRUE`:
 
 ```{r}
-gapminder %>%
-    filter(year == 2002) %>%
+gapminder |>
+    filter(year == 2002) |>
     count(continent, sort = TRUE)
 ```
 
@@ -271,16 +271,16 @@ is useful. For instance, if we wanted to get the standard error of the life
 expectancy per continent:
 
 ```{r}
-gapminder %>%
-    group_by(continent) %>%
+gapminder |>
+    group_by(continent) |>
     summarize(se_le = sd(lifeExp)/sqrt(n()))
 ```
 
 You can also chain together several summary operations; in this case calculating the `minimum`, `maximum`, `mean` and `se` of each continent's per-country life-expectancy:
 
 ```{r}
-gapminder %>%
-    group_by(continent) %>%
+gapminder |>
+    group_by(continent) |>
     summarize(
       mean_le = mean(lifeExp),
       min_le = min(lifeExp),
@@ -293,9 +293,9 @@ gapminder %>%
 We can also create new variables prior to (or even after) summarizing information using `mutate()`.
 
 ```{r}
-gdp_pop_bycontinents_byyear <- gapminder %>%
-  mutate(gdp_billion = gdpPercap*pop/10^9) %>%
-  group_by(continent, year) %>%
+gdp_pop_bycontinents_byyear <- gapminder |>
+  mutate(gdp_billion = gdpPercap*pop/10^9) |>
+  group_by(continent, year) |>
   summarize(mean_gdpPercap = mean(gdpPercap),
             sd_gdpPercap = sd(gdpPercap),
             mean_pop = mean(pop),
