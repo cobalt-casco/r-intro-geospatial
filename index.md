@@ -30,8 +30,8 @@ Data Carpentry's teaching is hands-on, so participants are encouraged to use
 their own computers to insure the proper setup of tools for an efficient
 workflow. <br>**This lesson assumes no prior knowledge of R.**
 
-To get started, follow the directions in the "[Setup](learners/setup.md)" tab to
-download data to your computer and follow any installation instructions.
+To get started, follow the directions in the  workshop [Setup](https://cobalt-casco.github.io/geospatial-workshop/index.html#setup) 
+page download data to your computer and follow any installation instructions.
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
