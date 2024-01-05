@@ -315,7 +315,7 @@
         
 <section id="aio-01-rstudio-intro"><p>Content from <a href="01-rstudio-intro.html">Introduction to R and RStudio</a></p>
 <hr>
-<p>Last updated on 2023-11-21 |
+<p>Last updated on 2024-01-05 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/01-rstudio-intro.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 25 minutes</p>
@@ -413,12 +413,11 @@ visualization in the context of geospatial data.</li>
 and collected data, the real fun begins! This lesson will teach you how
 to start this process using R and RStudio. We will begin with raw data,
 perform exploratory analyses, and learn how to plot results graphically.
-This example starts with a dataset from <a href="https://www.gapminder.org" class="external-link">gapminder.org</a> containing population
-information for many countries through time. Can you read the data into
-R? Can you plot the population for Senegal? Can you calculate the
-average income for countries on the continent of Asia? By the end of
-these lessons you will be able to do things like plot the populations
-for all of these countries in under a minute!</p>
+This example starts with two datasets on urchins and kelp in Casco Bay
+and beyond. Can you read the data into R? Can you plot the data or
+calculate average values for each site? By the end of this set of
+lessons you will be able to do things like plot the average kelp cover
+at different areas of Casco Bay in under a minute!</p>
 </section><section id="before-starting-the-workshop"><h2 class="section-heading">Before Starting The Workshop<a class="anchor" aria-label="anchor" href="#before-starting-the-workshop"></a>
 </h2>
 <hr class="half-width">
@@ -441,13 +440,9 @@ here</a></li>
 <div id="collapseInstructor3" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor3" aria-labelledby="headingInstructor3">
 <div class="accordion-body">
 <ul>
-<li>If your workshop includes the <a href="https://datacarpentry.org/organization-geospatial/" class="external-link">Introduction
-to Geospatial Concepts</a> lesson, learners will have just been
-introduced to RStudio in the context of the overall Geospatial software
-landscape.</li>
 <li>Have your learners open RStudio and follow along as you explain each
-pane. Make sure that your RStudio environment is the default so learners
-can follow along.</li>
+panel. Make sure that your RStudio environment is the default so
+learners can follow along.</li>
 <li>Be sure to explain how to execute code from the script window,
 whether you’re using the Run button or the keyboard shortcut.</li>
 <li>Learners will be using several packages in the next lesson, so be
@@ -1072,13 +1067,13 @@ do this to install the <code>dplyr</code> R package.</p></li>
 </h3>
 <pre class="output" tabindex="0"><code>The following package(s) will be installed:
 - dplyr [1.1.4]
-- vctrs [0.6.4]
+- vctrs [0.6.5]
 These packages will be installed into "~/work/r-intro-geospatial/r-intro-geospatial/renv/profiles/lesson-requirements/renv/library/R-4.3/x86_64-pc-linux-gnu".
 
 # Installing packages --------------------------------------------------------
 - Installing vctrs ...                          OK [linked from cache]
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 2 packages in 14 milliseconds.</code></pre>
+Successfully installed 2 packages in 8.9 milliseconds.</code></pre>
 </div>
 <p>It’s important to note that we only need to install the R package on
 our computer once. Well, if we install a new version of R on the same
@@ -2990,7 +2985,7 @@ neighbour. Did you have different strategies?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3195,7 +3190,7 @@ than 4 and less than 7.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3265,7 +3260,7 @@ vector</li>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The episode after this one covers the <code>dplyr</code> package,
 which has an alternate subsetting mechanism. Learners do still need to
@@ -3445,7 +3440,7 @@ and 2007</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution to challenge 3</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Fix each of the following common data frame subsetting errors:</p>
 <ol style="list-style-type: decimal">
@@ -3528,7 +3523,7 @@ through 23. You can do this in one or two steps.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Solution to challenge 4</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li><p><code>casco_dmr</code> is a data.frame so it needs to be
@@ -4455,7 +4450,7 @@ Raster and Vector Data</a> lesson.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <ul>
 <li>This episode introduces <code>geom_col</code> and
@@ -4550,7 +4545,7 @@ urchin counts, rather than kelp percent cover:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4635,7 +4630,7 @@ and Downeast color coded by year from the years 2001 - 2012.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>First we create a new object with our filtered and averaged</p>
 <div class="codewrapper sourceCode" id="cb11">
@@ -4739,7 +4734,7 @@ customizations we will be working with in that lesson.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Learners will need to have created the directory structure described
 in <a href="02-project-intro.html">Project Management With RStudio</a>
@@ -4812,7 +4807,7 @@ the side-by-side bar plot of urchins in the data.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4930,7 +4925,7 @@ directory.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4968,7 +4963,7 @@ combined with <code>dev.off()</code>.</li>
   <h3 class="accordion-header" id="headingInstructor2">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor2" class="accordion-collapse collapse" aria-labelledby="headingInstructor2" data-bs-parent="#accordionInstructor2">
+<div id="collapseInstructor2" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor2" aria-labelledby="headingInstructor2">
 <div class="accordion-body">
 <ul>
 <li>Now that learners know the fundamentals of R, the rest of the
