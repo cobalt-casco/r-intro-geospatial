@@ -66,12 +66,11 @@ Science is a multi-step process: once you've designed an experiment and
 collected data, the real fun begins! This lesson will teach you how to start
 this process using R and RStudio. We will begin with raw data, perform
 exploratory analyses, and learn how to plot results graphically. This example
-starts with a dataset from [gapminder.org](https://www.gapminder.org) containing
-population information for many countries through time. Can you read the data
-into R? Can you plot the population for Senegal? Can you calculate the average
-income for countries on the continent of Asia? By the end of these lessons you
-will be able to do things like plot the populations for all of these countries
-in under a minute!
+starts with two datasets on urchins and kelp in Casco Bay and beyond. Can you 
+read the data into R? Can you plot the data or calculate average values for
+each site? By the end of this set of lessons you will be able to do things 
+like plot the average kelp cover at different areas of Casco Bay in under a
+minute!
 
 ## Before Starting The Workshop
 
@@ -82,10 +81,8 @@ Please ensure you have the latest version of R and RStudio installed on your mac
 
 :::::::::::::::::::::::::::::::::::::::: instructor
 
-- If your workshop includes the [Introduction to Geospatial Concepts](https://datacarpentry.org/organization-geospatial/) lesson, learners will have
-  just been introduced to RStudio in the context of the overall Geospatial
-  software landscape.
-- Have your learners open RStudio and follow along as you explain each pane. Make sure that your RStudio environment is the default so learners can follow along.
+- Have your learners open RStudio and follow along as you explain each panel. Make 
+  sure that your RStudio environment is the default so learners can follow along.
 - Be sure to explain how to execute code from the script window, whether you're
   using the Run button or the keyboard shortcut.
 - Learners will be using several packages in the next lesson, so be sure to
