@@ -25,6 +25,12 @@ for the code in this episode to work.
 
 ::::::::::::::::::::::::::::::::::::::::
 
+```{r, include=FALSE}
+dmr <- read.csv("data/dmr_kelp_urchin.csv") 
+library(dplyr)
+library(ggplot2)
+```
+
 If you haven't already, you should create directories to save cleaned data and figures.
 
 ```{r}
