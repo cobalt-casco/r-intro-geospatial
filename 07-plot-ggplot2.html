@@ -261,7 +261,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Visualization</h1>
-        <p>Last updated on 2024-01-04 |
+        <p>Last updated on 2024-01-09 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/07-plot-ggplot2.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -324,24 +324,23 @@ Raster and Vector Data</a> lesson.</p>
 <p>ggplot2 is built on the grammar of graphics, the idea that any plot
 can be expressed from the same set of components: a
 <strong>data</strong> set, a <strong>coordinate system</strong>, and a
-set of <strong>geoms</strong>--the visual representation of data points.
-The key to understanding ggplot2 is thinking about a figure in layers.
-This idea may be familiar to you if you have used image editing programs
-like Photoshop, Illustrator, or Inkscape. In this episode we will focus
-on two geoms</p>
+set of <strong>geoms</strong> (the visual representation of data
+points). The key to understanding ggplot2 is thinking about a figure in
+layers. This idea may be familiar to you if you have used image editing
+programs like Photoshop, Illustrator, or Inkscape. In this episode we
+will focus on two geoms</p>
 <ul><li>histograms and bar plot. In the <a href="https://datacarpentry.org/r-raster-vector-geospatial/" class="external-link">R for
 Raster and Vector Data</a> lesson we will work with a number of other
 geometries and learn how to customize our plots.</li>
-</ul><p>Let’s start off with an example plotting the distribution of life
-expectancy in our dataset. The first thing we do is call the
+</ul><p>Let’s start off with an example plotting the distribution of kelp %
+cover in our dataset. The first thing we do is call the
 <code>ggplot</code> function. This function lets R know that we’re
 creating a new plot, and any of the arguments we give the
 <code>ggplot()</code> function are the global options for the plot: they
 apply to all layers on the plot.</p>
 <p>We will pass in two arguments to <code>ggplot</code>. First, we tell
-<code>ggplot</code> what data we want to show on our figure, in this
-example we use the gapminder data we read in earlier. For the second
-argument we pass in the <code>aes()</code> function, which tells
+<code>ggplot</code> what data we want to show on our figure. For the
+second argument we pass in the <code>aes()</code> function, which tells
 <code>ggplot</code> how variables in the data map to aesthetic
 properties of the figure. Here we will tell <code>ggplot</code> we want
 to plot the “kelp” column of the dmr data frame on the x-axis. We don’t
@@ -356,7 +355,7 @@ need to specify a y-axis for histograms.</p>
 <span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">kelp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   </span>
 <span>  <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter-1.png" alt="Histogram of histogram of kelp percent cover sampled by the DMR" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-hist-kelpcover-1.png" alt="Histogram of histogram of kelp percent cover sampled by the DMR" class="figure mx-auto d-block"><figcaption>
 Histogram of histogram of kelp percent cover sampled by the DMR
 </figcaption></figure><p>By itself, the call to <code>ggplot</code> isn’t enough to draw a
 figure:</p>
@@ -383,7 +382,7 @@ to visually represent the distribution of one variable (in our case
 </h3>
 <pre class="output" tabindex="0"><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
-<figure><img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="challenge-1" class="callout challenge">
+<figure><img src="fig/07-plot-ggplot2-rendered-hist-kelpcover2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="challenge-1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -392,7 +391,7 @@ to visually represent the distribution of one variable (in our case
 </h3>
 <div class="callout-content">
 <p>Modify the example so that the figure shows the distribution of
-urchin counts, rather than kelp percent cover:</p>
+urchin counts, rather than kelp percent cover.</p>
 </div>
 </div>
 </div>
@@ -401,7 +400,7 @@ urchin counts, rather than kelp percent cover:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -422,45 +421,45 @@ urchin counts, rather than kelp percent cover:</p>
 </div>
 <p>The histogram is a useful tool for visualizing the distribution of a
 single continuous variable. What if we want to compare the kelp cover of
-the regions in our dataset? We can use a bar (or column) plot. To
-simplify our plot, let’s look at data only from 2007 and only from sites
-in the Casco Bay.</p>
+the regions in our dataset? We could use a bar (or column) plot. First,
+let’s create a dataset with the mean % kelp for each region.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dmr_small</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2007</span>, </span>
-<span>         <span class="va">region</span> <span class="op">==</span> <span class="st">"Casco Bay"</span><span class="op">)</span> </span></code></pre>
+<code class="sourceCode R"><span><span class="va">region_mean_kelp</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mean_kelp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>This time, we will use the <code>geom_col()</code> function as our
-geometry. We will plot sites on the x-axis (listed in alphabetic order
-by default) and kelp on the y-axis.</p>
+geometry. We will plot regions on the x-axis (listed in alphabetic order
+by default) and mean kelp on the y-axis.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dmr_small</span>, </span>
-<span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">site</span>, y <span class="op">=</span> <span class="va">kelp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">region_mean_kelp</span>, </span>
+<span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">region</span>, y <span class="op">=</span> <span class="va">mean_kelp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-hist-subset-gapminder-1.png" alt="Barplot of GDP per capita. Country names on x-axis overlap and are not readable" class="figure mx-auto d-block"><figcaption>
-Barplot of GDP per capita. Country names on x-axis overlap and are not
-readable
-</figcaption></figure><p>With this many bars plotted, it’s impossible to read all of the
-x-axis labels. A quick fix to this is the add the
-<code>coord_flip()</code> function to the end of our plot code.</p>
+<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-mean-kelp-region-1.png" alt="Bar plot of the mean percent kelp cover for each region" class="figure mx-auto d-block"><figcaption>
+Bar plot of the mean percent kelp cover for each region
+</figcaption></figure><p>This looks okay, although perhaps you might want to display more than
+just the mean values. You could try another geometry: box plots, with
+<code>geom_boxplot</code>. Here we need the full un-summarized dataset.
+You might also want to specify axis labels by using the function
+<code>labs</code>.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dmr_small</span>, </span>
-<span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">site</span>, y <span class="op">=</span> <span class="va">kelp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dmr</span>, </span>
+<span>       mapping <span class="op">=</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">region</span>, y <span class="op">=</span> <span class="va">kelp</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Region"</span>, y <span class="op">=</span> <span class="st">"Percent Kelp Cover"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-hist-subset-gapminder-flipped-1.png" alt="Barplot showing GDP per capita. Country names on the y-axis are readable" class="figure mx-auto d-block"><figcaption>
-Barplot showing GDP per capita. Country names on the y-axis are readable
+<figure style="text-align: center"><img src="fig/07-plot-ggplot2-rendered-kelp-region-boxplot-1.png" alt="Box plot of kelp cover for each region" class="figure mx-auto d-block"><figcaption>
+Box plot of kelp cover for each region
 </figcaption></figure><p>There are more sophisticated ways of modifying axis labels. We will
 be learning some of those methods later in this workshop.</p>
 <div id="challenge-2" class="callout challenge">
@@ -476,7 +475,7 @@ be learning some of those methods later in this workshop.</p>
 <code>geom_col()</code> functions which columns of the data set to plot.
 Another aesthetic property we can modify is the color. Create a new bar
 (column) plot showing the average kelp abundance over time in Casco Bay
-and Downeast color coded by year from the years 2001 - 2012.</p>
+and Downeast color-coded by year from the years 2001 - 2012.</p>
 </div>
 </div>
 </div>
@@ -485,18 +484,18 @@ and Downeast color coded by year from the years 2001 - 2012.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>First we create a new object with our filtered and averaged</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dmr_small_2</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">dmr_small</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">filter</span><span class="op">(</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Casco Bay"</span>, <span class="st">"Downeast"</span><span class="op">)</span>,</span>
 <span>         <span class="va">year</span> <span class="op">%in%</span> <span class="fl">2001</span><span class="op">:</span><span class="fl">2012</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">region</span>, <span class="va">year</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span>kelp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">summarize</span><span class="op">(</span>mean_kelp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Then we plot that data using the <code>geom_col()</code> geom
 function. We color bars using the <code>fill</code> parameter within the
@@ -508,13 +507,13 @@ in <code>geom_col()</code> is “stack”.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">dmr_small_2</span>, </span>
-<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">as.character</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">kelp</span>, </span>
-<span>       fill <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>   <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">dmr_small</span>, </span>
+<span>       <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">as.character</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">mean_kelp</span>, </span>
+<span>           fill <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span> <span class="co">#puts the bars next to each other</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Mean % Kelp Cover"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/07-plot-ggplot2-rendered-gpd-per-cap-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
+<figure><img src="fig/07-plot-ggplot2-rendered-kelp-compare-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
@@ -606,7 +605,7 @@ customizations we will be working with in that lesson.</p>
   "url": "https://datacarpentry.github.io/r-intro-geospatial/07-plot-ggplot2.html",
   "identifier": "https://datacarpentry.github.io/r-intro-geospatial/07-plot-ggplot2.html",
   "dateCreated": "2018-04-05",
-  "dateModified": "2024-01-04",
+  "dateModified": "2024-01-09",
   "datePublished": "2024-01-09"
 }
 

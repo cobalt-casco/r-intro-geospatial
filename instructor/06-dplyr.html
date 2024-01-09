@@ -278,7 +278,7 @@ together</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data frame Manipulation with dplyr</h1>
-        <p>Last updated on 2024-01-04 |
+        <p>Last updated on 2024-01-09 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/06-dplyr.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -317,19 +317,19 @@ pipes in <code>dplyr</code>.</li>
 </div>
 </div>
 </div>
-<p>Let’s begin by loading loading the Maine DMR kelp-urchin data for the
-whole coastline.</p>
+<p>Let’s begin by loading the Maine DMR kelp-urchin data for the whole
+coastline.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dmr</span> <span class="op">&lt;-</span> <span class="fu">read.csv</span><span class="op">(</span><span class="st">"data/dmr_kelp_urchin.csv"</span><span class="op">)</span> </span></code></pre>
 </div>
-<p>Manipulation of dataframes means many things to many researchers, we
+<p>Manipulation of dataframes means many things to many researchers. We
 often select certain observations (rows) or variables (columns), we
-often group the data by a certain variable(s), or we even calculate
-summary statistics. We can do these operations using the normal base R
-operations:</p>
+often group the data by a certain variable(s), or we even calculate new
+variables or summary statistics. We can do these operations using the
+base R operations we’ve already learned:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -374,7 +374,7 @@ time, both now and later, and potentially introduce some nasty bugs.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <ul><li>Introduce the <code>dplyr</code> package as a simpler, more
 intuitive way of doing subsetting.</li>
@@ -427,8 +427,8 @@ function. This will keep only the variables you select.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dmr_kelp</span> <span class="op">&lt;-</span> <span class="fu">select</span><span class="op">(</span><span class="va">dmr</span>, <span class="va">year</span>, <span class="va">region</span>, <span class="va">kelp</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/13-dplyr-fig1.png" alt="Illustration of selecting two columns from a dataframe" class="figure mx-auto d-block"></figure><p>If we open up <code>dmr_kelp</code> we’ll see that it only contains
-the year, region and kelp.</p>
+<figure><img src="../fig/13-dplyr-fig1.png" alt="Illustration of selecting two columns from a dataframe" class="figure mx-auto d-block"></figure><p>If we examine <code>dmr_kelp</code> we’ll see that it only contains
+the year, region and kelp columns.</p>
 </section><section id="the-pipe"><h2 class="section-heading">The Pipe<a class="anchor" aria-label="anchor" href="#the-pipe"></a>
 </h2>
 <hr class="half-width"><p>Above we used ‘normal’ grammar, but the strengths of
@@ -439,7 +439,7 @@ repeat what we’ve done above using pipes.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dmr</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span> <span class="fu">select</span><span class="op">(</span><span class="va">year</span>, <span class="va">region</span>, <span class="va">kelp</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">dmr_kelp</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span> <span class="fu">select</span><span class="op">(</span><span class="va">year</span>, <span class="va">region</span>, <span class="va">kelp</span><span class="op">)</span></span></code></pre>
 </div>
 <p>To help you understand why we wrote that in that way, let’s walk
 through it step by step. First we summon the <code>dmr</code> data frame
@@ -476,7 +476,7 @@ region names sorted?</p>
 [5] "Penobscot Bay" "York"         </code></pre>
 </div>
 <p>To make our code more readable when we chain operations together, we
-often separate each step onto it’s own line of code.</p>
+often separate each step onto its own line of code.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -485,8 +485,8 @@ often separate each step onto it’s own line of code.</p>
 <span>  <span class="fu">unique</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">sort</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p>This has the secondary benefit of, if you’re puzzing through a
-particularly difficult workflow, you can write it out in comments, with
+<p>This has the secondary benefit that if you’re puzzing through a
+particularly difficult workflow, you can write it out in comments with
 one step on each line, and then figure out what functions to use. Like
 as follows</p>
 <div class="codewrapper sourceCode" id="cb17">
@@ -537,8 +537,9 @@ as follows</p>
 </h3>
 <div class="callout-content">
 <p><strong>Fun Fact</strong>: You may have encountered pipes before in
-the shell. In R, a pipe symbol is <code>|&gt;</code> while in the shell
-it is <code>|</code> but the concept is the same!</p>
+other programming contexts. In R, a pipe symbol is <code>|&gt;</code>
+while in other contexts it is often <code>|</code> but the concept is
+the same!</p>
 <p>The <code>|&gt;</code> operator is relatively new in R as part of the
 base language. But, the use of pipes has been around for longer.
 <code>dplyr</code> and many <code>tidyverse</code> libraries adopted the
@@ -554,9 +555,10 @@ much of the tidyverse who popularized <code>%&gt;%</code>) is <a href="https://t
 </div>
 </section><section id="using-filter"><h2 class="section-heading">Using <code>filter()</code><a class="anchor" aria-label="anchor" href="#using-filter"></a>
 </h2>
-<hr class="half-width"><p>If we now wanted to move forward with the above, but only with data
-from 2011 and kelp data, we can combine <code>select</code> and
-<code>filter</code></p>
+<hr class="half-width"><p>Just as <code>select</code> subsets columns, <code>filter</code>
+subsets rows using logical arguments. If we now wanted to move forward
+with the above, but only with data from 2011 and kelp data, we can
+combine <code>select</code> and <code>filter</code></p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -576,7 +578,7 @@ from 2011 and kelp data, we can combine <code>select</code> and
 <p>Write a single command (which can span multiple lines and includes
 pipes) that will produce a dataframe that has the Midcoast values for
 <code>kelp</code>, <code>urchin</code> and <code>year</code>, but not
-for other regions How many rows does your dataframe have and why?</p>
+for other regions. How many rows does your dataframe have and why?</p>
 </div>
 </div>
 </div>
@@ -585,7 +587,7 @@ for other regions How many rows does your dataframe have and why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution to Challenge 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -593,25 +595,14 @@ for other regions How many rows does your dataframe have and why?</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">year_kelp_urchin_dmr</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
 <span>                           <span class="fu">filter</span><span class="op">(</span><span class="va">region</span><span class="op">==</span><span class="st">"Midcoast"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>                           <span class="fu">select</span><span class="op">(</span><span class="va">year</span>,<span class="va">kelp</span>,<span class="va">urchin</span><span class="op">)</span></span></code></pre>
+<span>                           <span class="fu">select</span><span class="op">(</span><span class="va">year</span>,<span class="va">kelp</span>,<span class="va">urchin</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">nrow</span><span class="op">(</span><span class="va">year_kelp_urchin_dmr</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in `select()`:
-! Can't subset columns that don't exist.
-✖ Column `urchin` doesn't exist.</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb21">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">nrow</span><span class="op">(</span><span class="va">year_kelp_urchin_dmr</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'year_kelp_urchin_dmr' not found</code></pre>
+<pre class="output" tabindex="0"><code>[1] 249</code></pre>
 </div>
 <p>249 rows, as they are only the Midcoast samples</p>
 </div>
@@ -623,19 +614,20 @@ for other regions How many rows does your dataframe have and why?</p>
 dmr data frame to the <code>select()</code> function.
 <strong>Note:</strong> The order of operations is very important in this
 case. If we used ‘select’ first, filter would not be able to find the
-variable continent since we would have removed it in the previous
-step.</p>
+variable region since we would have removed it in the previous step.</p>
+<p>We could now do some specific operations (like calculating summary
+statistics) on just the Midcoast region.</p>
 </section><section id="using-group_by-and-summarize"><h2 class="section-heading">Using <code>group_by()</code> and <code>summarize()</code><a class="anchor" aria-label="anchor" href="#using-group_by-and-summarize"></a>
 </h2>
-<hr class="half-width"><p>Now, we were supposed to be reducing the error prone repetitiveness
-of what can be done with base R, but up to now we haven’t done that
-since we would have to repeat the above for each region Instead of
-<code>filter()</code>, which will only pass observations that meet your
-criteria (in the above:
+<hr class="half-width"><p>However, we were supposed to be reducing the error prone
+repetitiveness of what can be done with base R! If we wanted to do
+something for each region, we could take the above approach but we would
+have to repeat for each region. Instead of <code>filter()</code>, which
+will only pass observations that meet your criteria (in the above:
 <code>region</code>==“Midcoast”<code>), we can use</code>group_by()`,
 which will essentially use every unique criteria that you could have
 used in filter.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -646,7 +638,7 @@ used in filter.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "data.frame"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -666,7 +658,7 @@ contains only the rows that correspond to the a particular value
 <code>continent</code> (at least in the example above).</p>
 <figure><img src="../fig/13-dplyr-fig2.png" alt="Illustration of multiple dataframes created by piping a dataframe to group_by" class="figure mx-auto d-block"></figure><p>To see this more explicitly, try <code>str()</code> and see the
 information about groups at the end.</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -675,10 +667,22 @@ information about groups at the end.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>gropd_df [1,478 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
- $ year  : int [1:1478] 2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
- $ region: chr [1:1478] "York" "York" "York" "York" ...
- $ kelp  : num [1:1478] 1.9 0 18.5 0.6 63.5 92.5 59 7.7 52.5 29.2 ...
+<pre class="output" tabindex="0"><code>gropd_df [1,478 × 15] (S3: grouped_df/tbl_df/tbl/data.frame)
+ $ year         : int [1:1478] 2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ region       : chr [1:1478] "York" "York" "York" "York" ...
+ $ exposure.code: int [1:1478] 4 4 4 4 4 2 2 3 2 2 ...
+ $ coastal.code : int [1:1478] 3 3 3 4 3 2 2 3 2 2 ...
+ $ latitude     : num [1:1478] 43.1 43.3 43.4 43.5 43.5 ...
+ $ longitude    : num [1:1478] -70.7 -70.6 -70.4 -70.3 -70.3 ...
+ $ depth        : int [1:1478] 5 5 5 5 5 5 5 5 5 5 ...
+ $ crust        : num [1:1478] 60 75.5 73.5 63.5 72.5 6.1 31.5 31.5 40.5 53 ...
+ $ understory   : num [1:1478] 100 100 80 82 69 38.5 74 96.5 60 59.5 ...
+ $ kelp         : num [1:1478] 1.9 0 18.5 0.6 63.5 92.5 59 7.7 52.5 29.2 ...
+ $ urchin       : num [1:1478] 0 0 0 0 0 0 0 0 0 0 ...
+ $ month        : int [1:1478] 6 6 6 6 6 6 6 6 6 6 ...
+ $ day          : int [1:1478] 13 13 14 14 14 15 15 15 8 8 ...
+ $ survey       : chr [1:1478] "dmr" "dmr" "dmr" "dmr" ...
+ $ site         : int [1:1478] 42 47 56 61 62 66 71 70 23 22 ...
  - attr(*, "groups")= tibble [6 × 2] (S3: tbl_df/tbl/data.frame)
   ..$ region: chr [1:6] "Casco Bay" "Downeast" "MDI" "Midcoast" ...
   ..$ .rows : list&lt;int&gt; [1:6] 
@@ -701,7 +705,7 @@ frames. That is to say, using the <code>group_by()</code> function, we
 split our original dataframe into multiple pieces, then we can run
 functions (e.g. <code>mean()</code> or <code>sd()</code>) within
 <code>summarize()</code>.</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -724,7 +728,7 @@ functions (e.g. <code>mean()</code> or <code>sd()</code>) within
 5 Penobscot Bay      41.1
 6 York               19.4</code></pre>
 </div>
-<figure><img src="../fig/13-dplyr-fig3.png" alt="illustration of creating a summary dataframe from grouped data" class="figure mx-auto d-block"></figure><p>That allowed us to calculate the mean gdpPercap for each continent,
+<figure><img src="../fig/13-dplyr-fig3.png" alt="illustration of creating a summary dataframe from grouped data" class="figure mx-auto d-block"></figure><p>That allowed us to calculate the mean kelp % cover for each region,
 but it gets even better.</p>
 <div id="challenge-2" class="callout challenge">
 <div class="callout-square">
@@ -734,7 +738,7 @@ but it gets even better.</p>
 <h3 class="callout-title">Challenge 2<a class="anchor" aria-label="anchor" href="#challenge-2"></a>
 </h3>
 <div class="callout-content">
-<p>Calculate the average urchin abundance per country. Which region has
+<p>Calculate the average urchin abundance per region. Which region has
 the most urchins on average and which has the least?</p>
 </div>
 </div>
@@ -744,36 +748,27 @@ the most urchins on average and which has the least?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution to Challenge 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">urchin_by_region</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
 <span>   <span class="fu">group_by</span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>   <span class="fu">summarize</span><span class="op">(</span>mean_urchins <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">urchin</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in `summarize()`:
-ℹ In argument: `mean_urchins = mean(urchin)`.
-ℹ In group 1: `region = "Casco Bay"`.
-Caused by error:
-! object 'urchin' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb33">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">urchin_by_region</span> <span class="op">|&gt;</span></span>
+<span>   <span class="fu">summarize</span><span class="op">(</span>mean_urchins <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">urchin</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">urchin_by_region</span> <span class="op">|&gt;</span></span>
 <span>   <span class="fu">filter</span><span class="op">(</span><span class="va">mean_urchins</span> <span class="op">==</span> <span class="fu">min</span><span class="op">(</span><span class="va">mean_urchins</span><span class="op">)</span> <span class="op">|</span> <span class="va">mean_urchins</span> <span class="op">==</span> <span class="fu">max</span><span class="op">(</span><span class="va">mean_urchins</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'urchin_by_region' not found</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 2 × 2
+  region        mean_urchins
+  &lt;chr&gt;                &lt;dbl&gt;
+1 Casco Bay           0.0767
+2 Penobscot Bay       5.30  </code></pre>
 </div>
 <p>Another way to do this is to use the <code>dplyr</code> function
 <code>arrange()</code>, which arranges the rows in a data frame
@@ -781,7 +776,7 @@ according to the order of one or more variables from the data frame. It
 has similar syntax to other functions from the <code>dplyr</code>
 package. You can use <code>desc()</code> inside <code>arrange()</code>
 to sort in descending order.</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -790,11 +785,14 @@ to sort in descending order.</p>
 <span>   <span class="fu">head</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'urchin_by_region' not found</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 1 × 2
+  region    mean_urchins
+  &lt;chr&gt;            &lt;dbl&gt;
+1 Casco Bay       0.0767</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -803,9 +801,12 @@ to sort in descending order.</p>
 <span>   <span class="fu">head</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'urchin_by_region' not found</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 1 × 2
+  region        mean_urchins
+  &lt;chr&gt;                &lt;dbl&gt;
+1 Penobscot Bay         5.30</code></pre>
 </div>
 </div>
 </div>
@@ -813,7 +814,7 @@ to sort in descending order.</p>
 </div>
 <p>The function <code>group_by()</code> allows us to group by multiple
 variables. Let’s group by <code>year</code> and <code>region</code>.</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -829,7 +830,7 @@ variables. Let’s group by <code>year</code> and <code>region</code>.</p>
 </div>
 <p>That is already quite powerful, but it gets even better! You’re not
 limited to defining 1 new variable in <code>summarize()</code>.</p>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -839,15 +840,6 @@ limited to defining 1 new variable in <code>summarize()</code>.</p>
 <span>            mean_urchin <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">urchin</span><span class="op">)</span>,</span>
 <span>            sd_kelp <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span>,</span>
 <span>            sd_urchin <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">urchin</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in `summarize()`:
-ℹ In argument: `mean_urchin = mean(urchin)`.
-ℹ In group 1: `region = "Casco Bay"`, `year = 2001`.
-Caused by error:
-! object 'urchin' not found</code></pre>
 </div>
 </section><section id="count-and-n"><h2 class="section-heading">
 <code>count()</code> and <code>n()</code><a class="anchor" aria-label="anchor" href="#count-and-n"></a>
@@ -860,7 +852,7 @@ in the dataset for the year 2002, we can use the <code>count()</code>
 function. It takes the name of one or more columns that contain the
 groups we are interested in, and we can optionally sort the results in
 descending order by adding <code>sort=TRUE</code>:</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -882,7 +874,7 @@ descending order by adding <code>sort=TRUE</code>:</p>
 <p>If we need to use the number of observations in calculations, the
 <code>n()</code> function is useful. For instance, if we wanted to get
 the standard error of urchins per region:</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -891,20 +883,24 @@ the standard error of urchins per region:</p>
 <span>    <span class="fu">summarize</span><span class="op">(</span>se_urchin <span class="op">=</span> <span class="fu">sd</span><span class="op">(</span><span class="va">urchin</span><span class="op">)</span><span class="op">/</span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in `summarize()`:
-ℹ In argument: `se_urchin = sd(urchin)/sqrt(n())`.
-ℹ In group 1: `region = "Casco Bay"`.
-Caused by error:
-! object 'urchin' not found</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 6 × 2
+  region        se_urchin
+  &lt;chr&gt;             &lt;dbl&gt;
+1 Casco Bay        0.0392
+2 Downeast         0.303 
+3 MDI              0.388 
+4 Midcoast         0.227 
+5 Penobscot Bay    0.659 
+6 York             0.788 </code></pre>
 </div>
 </section><section id="using-mutate"><h2 class="section-heading">Using <code>mutate()</code><a class="anchor" aria-label="anchor" href="#using-mutate"></a>
 </h2>
 <hr class="half-width"><p>We can also create new variables prior to (or even after) summarizing
 information using <code>mutate()</code>. For example, if we wanted to
 create a <code>total_fleshy_algae</code> column.</p>
-<div class="codewrapper sourceCode" id="cb47">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -913,7 +909,7 @@ create a <code>total_fleshy_algae</code> column.</p>
 </div>
 <p>You can also create a second new column based on the first new column
 within the same call of <code>mutate()</code>:</p>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -935,7 +931,7 @@ from the regional average over time. This makes it easier to separate
 regional variation from variation over time.</p>
 <p>This requires putting <code>mutate()</code> and
 <code>group_by()</code> together.</p>
-<div class="codewrapper sourceCode" id="cb49">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -947,33 +943,36 @@ regional variation from variation over time.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># A tibble: 1,478 × 5
+<pre class="output" tabindex="0"><code># A tibble: 1,478 × 17
 # Groups:   region [6]
-    year region     kelp mean_kelp_regional kelp_anomaly_regional
-   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;              &lt;dbl&gt;                 &lt;dbl&gt;
- 1  2001 York        1.9               19.4               -17.5  
- 2  2001 York        0                 19.4               -19.4  
- 3  2001 York       18.5               19.4                -0.876
- 4  2001 York        0.6               19.4               -18.8  
- 5  2001 York       63.5               19.4                44.1  
- 6  2001 Casco Bay  92.5               44.1                48.4  
- 7  2001 Casco Bay  59                 44.1                14.9  
- 8  2001 Casco Bay   7.7               44.1               -36.4  
- 9  2001 Casco Bay  52.5               44.1                 8.35 
-10  2001 Casco Bay  29.2               44.1               -14.9  
-# ℹ 1,468 more rows</code></pre>
+    year region    exposure.code coastal.code latitude longitude depth crust
+   &lt;int&gt; &lt;chr&gt;             &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+ 1  2001 York                  4            3     43.1     -70.7     5  60  
+ 2  2001 York                  4            3     43.3     -70.6     5  75.5
+ 3  2001 York                  4            3     43.4     -70.4     5  73.5
+ 4  2001 York                  4            4     43.5     -70.3     5  63.5
+ 5  2001 York                  4            3     43.5     -70.3     5  72.5
+ 6  2001 Casco Bay             2            2     43.7     -70.1     5   6.1
+ 7  2001 Casco Bay             2            2     43.8     -70.0     5  31.5
+ 8  2001 Casco Bay             3            3     43.8     -69.9     5  31.5
+ 9  2001 Casco Bay             2            2     43.8     -69.9     5  40.5
+10  2001 Casco Bay             2            2     43.8     -69.9     5  53  
+# ℹ 1,468 more rows
+# ℹ 9 more variables: understory &lt;dbl&gt;, kelp &lt;dbl&gt;, urchin &lt;dbl&gt;, month &lt;int&gt;,
+#   day &lt;int&gt;, survey &lt;chr&gt;, site &lt;int&gt;, mean_kelp_regional &lt;dbl&gt;,
+#   kelp_anomaly_regional &lt;dbl&gt;</code></pre>
 </div>
 <p>This worked, but, uh oh. Why is the data frame still grouped? Leaving
 a data frame grouped will have consequences, as any other mutate will be
 done <strong>by region</strong> instead of on the whole data frame. So,
-for example, if we wanted to then get a <em>global</em> anomaly - i.e.,
+for example, if we wanted to then get a <em>global</em> anomaly, i.e.,
 the difference between kelp and the average amount of kelp for the
 entire data set, we couldn’t just do another set of mutates.</p>
-<p>Fortunately, we can resolve this with <code>ungroup()</code> - a
+<p>Fortunately, we can resolve this with <code>ungroup()</code>: a
 useful verb to insert any time you want to remove all grouping
 structure, and are worried <code>dplyr</code> is not doing it for
 you.</p>
-<div class="codewrapper sourceCode" id="cb51">
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -987,26 +986,29 @@ you.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># A tibble: 6 × 5
-   year region     kelp mean_kelp_regional kelp_anomaly_regional
-  &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;              &lt;dbl&gt;                 &lt;dbl&gt;
-1  2001 York        1.9               19.4               -17.5  
-2  2001 York        0                 19.4               -19.4  
-3  2001 York       18.5               19.4                -0.876
-4  2001 York        0.6               19.4               -18.8  
-5  2001 York       63.5               19.4                44.1  
-6  2001 Casco Bay  92.5               44.1                48.4  </code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 6 × 17
+   year region    exposure.code coastal.code latitude longitude depth crust
+  &lt;int&gt; &lt;chr&gt;             &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+1  2001 York                  4            3     43.1     -70.7     5  60  
+2  2001 York                  4            3     43.3     -70.6     5  75.5
+3  2001 York                  4            3     43.4     -70.4     5  73.5
+4  2001 York                  4            4     43.5     -70.3     5  63.5
+5  2001 York                  4            3     43.5     -70.3     5  72.5
+6  2001 Casco Bay             2            2     43.7     -70.1     5   6.1
+# ℹ 9 more variables: understory &lt;dbl&gt;, kelp &lt;dbl&gt;, urchin &lt;dbl&gt;, month &lt;int&gt;,
+#   day &lt;int&gt;, survey &lt;chr&gt;, site &lt;int&gt;, mean_kelp_regional &lt;dbl&gt;,
+#   kelp_anomaly_regional &lt;dbl&gt;</code></pre>
 </div>
-<p>Note, it does convert your data frame into a <code>tibble</code>, but
-if you really want a data frame back, you can use
-<code>as.data.frame()</code>.</p>
+<p>Note, it does convert your data frame into a <code>tibble</code> (a
+“tidy” data frame), but if you really want a data frame back, you can
+use <code>as.data.frame()</code>.</p>
 <!-- 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Extra Challenge 4
 
-Let's look at inerannual and spatial variability a bit. Calculate the urchin 
-anomaly by  `year` and `exposure.code` (1 is fully protected from the open 
+Let's look at interannual and spatial variability a bit. Calculate the urchin 
+anomaly by `year` and `exposure.code` (1 is fully protected from the open 
 ocean, 5 is fully exposed). To figure out the most variable year and exposure,
 calculate the difference between the biggest anomaly and smallest anomaly by 
 year and exposure. What year and exposure code had the biggest difference?
@@ -1044,10 +1046,16 @@ dmr |>
   filter(diff == max(diff))
 ```
 
-```{.error}
-Error in `group_by()` at dplyr/R/mutate.R:146:2:
-! Must group by variables found in `.data`.
-✖ Column `exposure.code` is not found.
+```{.output}
+`summarise()` has grouped output by 'year'. You can override using the
+`.groups` argument.
+```
+
+```{.output}
+# A tibble: 1 × 5
+   year exposure.code max_anomaly min_anomaly  diff
+  <int>         <int>       <dbl>       <dbl> <dbl>
+1  2010             1        79.1       -14.8  93.9
 ```
 
 
@@ -1142,7 +1150,7 @@ of observations in columns.</li>
   "url": "https://datacarpentry.github.io/r-intro-geospatial/instructor/06-dplyr.html",
   "identifier": "https://datacarpentry.github.io/r-intro-geospatial/instructor/06-dplyr.html",
   "dateCreated": "2018-04-05",
-  "dateModified": "2024-01-04",
+  "dateModified": "2024-01-09",
   "datePublished": "2024-01-09"
 }
 
