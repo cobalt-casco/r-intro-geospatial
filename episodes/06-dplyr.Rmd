@@ -19,17 +19,17 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Let's begin by loading loading the Maine DMR kelp-urchin data for the whole 
-coastline.
+Let's begin by loading the Maine DMR kelp-urchin data for the whole coastline.
 
 ```{r}
 dmr <- read.csv("data/dmr_kelp_urchin.csv") 
 ```
 
-Manipulation of dataframes means many things to many researchers, we often
+Manipulation of dataframes means many things to many researchers. We often
 select certain observations (rows) or variables (columns), we often group the
-data by a certain variable(s), or we even calculate summary statistics. We can
-do these operations using the normal base R operations:
+data by a certain variable(s), or we even calculate new variables or summary 
+statistics. We can do these operations using the base R operations we've
+already learned:
 
 ```{r}
 mean(dmr[dmr$year == 2001, "kelp"])
@@ -92,8 +92,8 @@ dmr_kelp <- select(dmr, year, region, kelp)
 
 ![](fig/13-dplyr-fig1.png){alt='Illustration of selecting two columns from a dataframe'}
 
-If we open up `dmr_kelp` we'll see that it only contains the year,
-region and kelp.
+If we examine `dmr_kelp` we'll see that it only contains the year,
+region and kelp columns.
 
 ## The Pipe
 
@@ -103,7 +103,7 @@ is unlike anything we've seen in R before, let's repeat what we've done above
 using pipes.
 
 ```{r}
-dmr <- dmr |> select(year, region, kelp)
+dmr_kelp <- dmr |> select(year, region, kelp)
 ```
 
 To help you understand why we wrote that in that way, let's walk through it step
@@ -125,7 +125,7 @@ dmr$region |> unique() |> sort()
 ```
 
 To make our code more readable when we chain operations together, we often
-separate each step onto it's own line of code. 
+separate each step onto its own line of code. 
 
 ```{r, eval = FALSE}
 dmr$region |>
@@ -133,8 +133,8 @@ dmr$region |>
   sort()
 ```
 
-This has the secondary benefit of, if you're puzzing through a particularly 
-difficult workflow, you can write it out in comments, with one step on each 
+This has the secondary benefit that if you're puzzing through a particularly 
+difficult workflow, you can write it out in comments with one step on each 
 line, and then figure out what functions to use. Like as follows
 
 ```{r, eval = FALSE}
@@ -177,8 +177,8 @@ dmr$region |>
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-**Fun Fact**: You may have encountered
-pipes before in the shell. In R, a pipe symbol is `|>` while in the shell it is
+**Fun Fact**: You may have encountered pipes before in other programming
+contexts. In R, a pipe symbol is `|>` while in other contexts it is often
 `|` but the concept is the same! 
 
 The `|>` operator is relatively new in R as part of the base language. But, the
@@ -194,6 +194,7 @@ of dplyr and much of the tidyverse who popularized `%>%`) is [pro-base-pipe](htt
 
 ## Using `filter()`
 
+Just as `select` subsets columns, `filter` subsets rows using logical arguments. 
 If we now wanted to move forward with the above, but only with data from 2011
 and kelp data, we can combine `select` and `filter`
 
@@ -209,7 +210,7 @@ dmr_2011 <- dmr |>
 
 Write a single command (which can span multiple lines and includes pipes) that
 will produce a dataframe that has the Midcoast values for `kelp`, `urchin`
-and `year`, but not for other regions  How many rows does your dataframe
+and `year`, but not for other regions. How many rows does your dataframe
 have and why?
 
 :::::::::::::::  solution
@@ -234,13 +235,15 @@ As with last time, first we pass the dmr dataframe to the `filter()`
 function, then we pass the filtered version of the dmr data frame to the
 `select()` function. **Note:** The order of operations is very important in this
 case. If we used 'select' first, filter would not be able to find the variable
-continent since we would have removed it in the previous step.
+region since we would have removed it in the previous step.
+
+We could now do some specific operations (like calculating summary statistics) on just the Midcoast region.
 
 ## Using `group_by()` and `summarize()`
 
-Now, we were supposed to be reducing the error prone repetitiveness of what can
-be done with base R, but up to now we haven't done that since we would have to
-repeat the above for each region Instead of `filter()`, which will only pass
+However, we were supposed to be reducing the error prone repetitiveness of what can
+be done with base R! If we wanted to do something for each region, we could take the 
+above approach but we would have to repeat for each region. Instead of `filter()`, which will only pass
 observations that meet your criteria (in the above: `region`=="Midcoast"`), we
 can use `group_by()`, which will essentially use every unique criteria that you
 could have used in filter.
@@ -286,14 +289,14 @@ kelp_by_region
 
 ![](fig/13-dplyr-fig3.png){alt='illustration of creating a summary dataframe from grouped data'}
 
-That allowed us to calculate the mean gdpPercap for each continent, but it gets
+That allowed us to calculate the mean kelp % cover for each region, but it gets
 even better.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 2
 
-Calculate the average urchin abundance per country. Which region has the most 
+Calculate the average urchin abundance per region. Which region has the most 
 urchins on average and which has the least?
 
 :::::::::::::::  solution
@@ -417,11 +420,11 @@ dmr |>
 This worked, but, uh oh. Why is the data frame still grouped? Leaving a data 
 frame grouped will have consequences, as any other mutate will be done 
 **by region** instead of on the whole data frame. So, for example, if we wanted 
-to then get a *global* anomaly - i.e., the difference between kelp and the 
+to then get a *global* anomaly, i.e., the difference between kelp and the 
 average amount of kelp for the entire data set, we couldn't just do another set
 of mutates. 
 
-Fortunately, we can resolve this with `ungroup()` - a useful verb to insert any
+Fortunately, we can resolve this with `ungroup()`: a useful verb to insert any
 time you want to remove all grouping structure, and are worried `dplyr` is not
 doing it for you.
 
@@ -434,16 +437,16 @@ dmr |>
   head()
 ```
 
-Note, it does convert your data frame into a `tibble`, but if you really want a 
-data frame back, you can use `as.data.frame()`.
+Note, it does convert your data frame into a `tibble` (a "tidy" data frame), but if 
+you really want a data frame back, you can use `as.data.frame()`.
 
 <!-- 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Extra Challenge 4
 
-Let's look at inerannual and spatial variability a bit. Calculate the urchin 
-anomaly by  `year` and `exposure.code` (1 is fully protected from the open 
+Let's look at interannual and spatial variability a bit. Calculate the urchin 
+anomaly by `year` and `exposure.code` (1 is fully protected from the open 
 ocean, 5 is fully exposed). To figure out the most variable year and exposure,
 calculate the difference between the biggest anomaly and smallest anomaly by 
 year and exposure. What year and exposure code had the biggest difference?
