@@ -25,16 +25,7 @@ for the code in this episode to work.
 
 ::::::::::::::::::::::::::::::::::::::::
 
-
-Let's begin by loading libraries and some data.
-```{r, message=FALSE}
-library(ggplot2)
-library(dplyr)
-
-dmr <- read.csv("data/dmr_kelp_urchin.csv") 
-```
-
-We will also want to create a directory to save cleaned data and figures.
+If you haven't already, you should create directories to save cleaned data and figures.
 
 ```{r}
 dir.create("cleaned-data")
@@ -73,8 +64,7 @@ Open up this document and have a look.
 ## Challenge 1
 
 Rewrite your 'pdf' command to print a second
-page in the pdf, showing the side-by-side bar
-plot of urchins in the data.
+page in the pdf, showing the histogram of urchins in the data.
 
 :::::::::::::::  solution
 
@@ -89,8 +79,7 @@ geom_histogram()
 
 ggplot(data = dmr, 
        mapping = aes(x = urchin)) +
-  geom_histogram() +
-  coord_flip()
+  geom_histogram()
 
 dev.off()
 ```
@@ -102,9 +91,8 @@ dev.off()
 The commands `jpeg`, `png`, etc. are used similarly to produce
 documents in different formats. You can also use `ggsave()` to save whatever 
 your last plot was. For example, let's say we made a neat plot using 
-`geom_point()` to show the relationship between kelp and urchins colored
-by region. We want to 
-save it as a jpeg. `ggsave()` will dynamically figure out your filetype from
+`geom_point()` (a scatterplot) to show the relationship between kelp and urchins colored
+by region. We want to save it as a jpeg. `ggsave()` will dynamically figure out your filetype from
 the file name.
 
 ```{r}
@@ -124,7 +112,7 @@ We can use the `write.csv` function for this, which is
 very similar to `read.csv` from before.
 
 Let's create a data-cleaning script, for this analysis, we
-only want to focus on the gapminder data for Australia:
+only want to focus on the data for Downeast:
 
 ```{r}
 downeast_subset <- dmr |>
