@@ -180,11 +180,13 @@ Now we have a good directory structure we will now place/save our data files in 
 
 - [Maine DMR urchin survey data](https://cobalt-casco.github.io/r-intro-geospatial/data/dmr_kelp_urchin.csv)
 - [Casco Bay data](https://cobalt-casco.github.io/r-intro-geospatial/data/casco_kelp_urchin.csv)
+- ["Updated" Casco Bay data](https://cobalt-casco.github.io/r-intro-geospatial/data/casco_kelp_urchin_2.csv)
 
 2\. Make sure the files have the following names:
 
 - `dmr_kelp_urchin.csv`
 - `casco_kelp_urchin.csv`
+- `casco_kelp_urchin_2.csv`
 
 3\. Save the files in the `data/` folder within your project.
 
@@ -213,6 +215,7 @@ your data directory should look as follows:
 ```
 data/
      casco_kelp_urchin.csv
+     casco_kelp_urchin_2.csv
      dmr_kelp_urchin.csv
      landsat_casco
      maine_dmr
