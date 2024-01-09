@@ -25,6 +25,8 @@ for the code in this episode to work.
 
 ::::::::::::::::::::::::::::::::::::::::
 
+
+
 If you haven't already, you should create directories to save cleaned data and figures.
 
 
@@ -106,16 +108,14 @@ ggplot(dmr,
   geom_point()
 ```
 
-```{.error}
-Error in ggplot(dmr, aes(x = urchin, y = kelp, color = region)): could not find function "ggplot"
-```
+<img src="fig/08-writing-data-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ```r
 ggsave("figures/kelp_urchin.jpg")
 ```
 
-```{.error}
-Error in ggsave("figures/kelp_urchin.jpg"): could not find function "ggsave"
+```{.output}
+Saving 7 x 7 in image
 ```
 
 ## Writing data
@@ -132,20 +132,10 @@ only want to focus on the data for Downeast:
 ```r
 downeast_subset <- dmr |>
   filter(region == "Downeast")
-```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'dmr' not found
-```
-
-```r
 write.csv(downeast_subset,
   file="cleaned-data/dmr_downeast.csv"
 )
-```
-
-```{.error}
-Error in eval(expr, p): object 'downeast_subset' not found
 ```
 
 Let's open the file to make sure it contains the data we expect. Navigate to your
@@ -176,10 +166,6 @@ write.csv(
   file = "cleaned-data/dmr_downeast.csv",
   row.names=FALSE
 )
-```
-
-```{.error}
-Error in eval(expr, p): object 'downeast_subset' not found
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
