@@ -25,7 +25,9 @@ R has many powerful subset operators. Mastering them will allow you to
 easily perform complex operations on any kind of dataset.
 
 There are six different ways we can subset any kind of object, and three
-different subsetting operators for the different data structures.
+different subsetting operators for the different data structures. Why
+so many? Well, this gives us a lot of flexibility that can come in useful.
+At first, though, it may seem overwhelming. Don't worry!
 
 Let's start with the workhorse of R: a simple numeric vector.
 
@@ -56,8 +58,8 @@ contents?
 
 ## Accessing elements using their indices
 
-To extract elements of a vector we can give their corresponding index, starting
-from one:
+To extract elements of a vector we can give their corresponding index, or 
+their numbered place in the vector starting from one:
 
 
 ```r
@@ -149,7 +151,8 @@ x[6]
   NA 
 ```
 
-This is a vector of length one containing an `NA`, whose name is also `NA`.
+This is a vector of length one containing an `NA`, whose name is also `NA`. Here `NA` 
+stands for "Not Available", and is a common way to represent a missing value.
 
 If we ask for the 0th element, we get an empty vector:
 
@@ -375,12 +378,13 @@ x[x > 7]
 7.1 7.5 
 ```
 
-Breaking it down, this statement first evaluates `x>7`, generating
+Breaking it down, this statement first evaluates `x > 7`, generating
 a logical vector `c(FALSE, FALSE, TRUE, FALSE, TRUE)`, and then
 selects the elements of `x` corresponding to the `TRUE` values.
 
 We can use `==` to mimic the previous method of indexing by name
-(remember you have to use `==` rather than `=` for comparisons):
+(you have to use `==` rather than `=` for comparisons, as R has 
+another use for `=`):
 
 
 ```r
@@ -396,10 +400,10 @@ x[names(x) == "a"]
 
 ## Tip: Combining logical conditions
 
-We often want to combine multiple logical
-criteria. For example, we might want to find all the countries that are
-located in Asia **or** Europe **and** have life expectancies within a certain
-range. Several operations for combining logical vectors exist in R:
+We often want to combine multiple logical criteria. For example, we might want 
+to find all the plots that are located in Casco Bay **or** Penobscot Bay **and** 
+have urchin densities within a certain range. Several operations for combining 
+logical vectors exist in R:
 
 - `&`, the "logical AND" operator: returns `TRUE` if both the left and right
   are `TRUE`.
@@ -407,10 +411,9 @@ range. Several operations for combining logical vectors exist in R:
   (or both) are `TRUE`.
 
 You may sometimes see `&&` and `||` instead of `&` and `|`. These two-character operators
-only look at the first element of each vector and ignore the
-remaining elements. In general you should not use the two-character
-operators in data analysis; save them
-for programming, i.e. deciding whether to execute a statement.
+only look at the first element of each vector and ignore the remaining elements. 
+In general you should not use the two-character operators in data analysis; save 
+them for programming, i.e. deciding whether to execute a statement.
 
 - `!`, the "logical NOT" operator: converts `TRUE` to `FALSE` and `FALSE` to
   `TRUE`. It can negate a single logical condition (eg `!TRUE` becomes
@@ -468,7 +471,7 @@ print(x_subset)
 
 ## Tip: Getting help for operators
 
-Remember you can search for help on operators by wrapping them in quotes:
+You can search for help on operators by wrapping them in quotes:
 `help("%in%")` or `?"%in%"`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -503,14 +506,15 @@ the rest of the workshop focus on `dplyr` syntax.
 
 :::::::::::::::::::::::::::::::::::::::::
 
-Data frames are an object type called a list underneath the hood, so the rules
-are slightly different. However they are also two dimensional objects.
+Data frames are two dimensional objects (under the hood they are structured as 
+lists in R, but we aren't going to go into detail on that). Data frames have some 
+useful subsetting operators.
 
 Let's look at the Casco Bay DMR kelp-urchin data again.
 
 
 ```r
-casco_dmr <- read.csv("data/casco_kelp_urchin.csv")
+casco_dmr <- read.csv("data/casco_kelp_urchin.csv") # if you don't already have the data loaded
 ```
 
 `[` with one argument will extract a column - each
@@ -562,7 +566,8 @@ head(casco_dmr$exposure.code)
 [1] 2 2 3 2 2 1
 ```
 
-To select specific rows and/or columns, you can provide two arguments to `[`
+To select specific rows and/or columns, you can provide two arguments to `[`.
+The first identifies the rows to subset, and the second the columns.
 
 
 ```r
@@ -596,7 +601,25 @@ casco_dmr[3, ]
 ```
 
 But for a single column the result will be a vector (this can be changed with
-the third argument, `drop = FALSE`).
+the argument, `drop = FALSE`).
+
+
+```r
+str(casco_dmr[, 3])
+```
+
+```{.output}
+ int [1:90] 2 2 3 2 2 1 2 3 3 5 ...
+```
+
+```r
+str(casco_dmr[, 3, drop = FALSE])
+```
+
+```{.output}
+'data.frame':	90 obs. of  1 variable:
+ $ exposure.code: int  2 2 3 2 2 1 2 3 3 5 ...
+```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -625,16 +648,16 @@ Fix each of the following common data frame subsetting errors:
   casco_dmr[casco_dmr$kelp > 80]
   ```
 
-4. Extract the first row, and the fourth and fifth columns
-  (`lifeExp` and `gdpPercap`).
+4. Extract the first row, and the fifth and sixth columns
+  (`latitude` and `longitude`).
   
   
   ```r
-  casco_dmr[1, 4, 5]
+  casco_dmr[1, 5, 6]
   ```
 
 5. Advanced: extract rows that contain information for the years 2002
-  and 2007
+  or 2007
   
   
   ```r
@@ -671,13 +694,13 @@ Fix each of the following common data frame subsetting errors:
   casco_dmr[casco_dmr$kelp > 80,]
   ```
 
-4. Extract the first row, and the fourth and fifth columns
-  (`coastal.code` and `latitude`).
+4. Extract the first row, and the fifth and sixth columns
+  (`latitude` and `longitude`).
   
   
   ```r
-  # casco_dmr[1, 4, 5]
-  casco_dmr[1, c(4, 5)]
+  # casco_dmr[1, 5, 6]
+  casco_dmr[1, c(5, 6)]
   ```
 
 5. Advanced: extract rows that contain information for the years 2002
@@ -708,7 +731,8 @@ Fix each of the following common data frame subsetting errors:
 
 ## Solution to challenge 4
 
-1. `casco_dmr` is a data.frame so it needs to be subsetted on two dimensions. `casco_dmr[1:20, ]` subsets the data to give the first 20 rows and all columns.
+1. `casco_dmr` is a data.frame so it needs to be subsetted on two dimensions. 
+`casco_dmr[1:20, ]` subsets the data to give the first 20 rows and all columns.
 
 2. 
 

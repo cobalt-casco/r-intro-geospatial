@@ -8,7 +8,7 @@ source: Rmd
 ::::::::::::::::::::::::::::::::::::::: objectives
 
 - To be aware of the different types of data.
-- To begin exploring data frames, and understand how they are related to vectors, factors and lists.
+- To begin exploring data frames, and understand how they are related to vectors and factors.
 - To be able to ask questions from R about the type, class, and structure of an object.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -23,10 +23,10 @@ source: Rmd
 
 
 
-One of R's most powerful features is its ability to deal with tabular data -
+One of R's most powerful features is its ability to deal with tabular data,
 such as you may already have in a spreadsheet or a CSV file. Let's start by
-downloading and reading in a file `nordic-data.csv`. We will
-save this data as an object named `nordic`:
+downloading and reading in a file `casco_kelp_urchin.csv`. We will
+save this data as an object named `casco_dmr`:
 
 
 ```r
@@ -35,8 +35,8 @@ casco_dmr <- read.csv("data/casco_kelp_urchin.csv")
 
 The `read.table` function is used for reading in tabular data stored in a text
 file where the columns of data are separated by punctuation characters such as
-CSV files (csv = comma-separated values). Tabs and commas are the most common
-punctuation characters used to separate or delimit data points in csv files.
+tabs (tab-delimited, sometimes with .txt or .tsv extensions) or commas (comma-delimited 
+values, often with .csv extensions).
 For convenience R provides 2 other versions of `read.table`. These are: `read.csv`
 for files where the data are separated with commas and `read.delim` for files
 where the data are separated with tabs. Of these three functions `read.csv` is
@@ -107,7 +107,7 @@ casco_dmr$kelp
 [85]  55.0  11.0  63.5  14.5  25.5  31.0
 ```
 
-We can do other operations on the columns. For example, if we discovered that the life expectancy is two years higher:
+We can do other operations on the columns. For example, if we discovered that our data were actually collected two years later:
 
 
 ```r
@@ -122,6 +122,8 @@ casco_dmr$year + 2
 [61] 2011 2011 2011 2011 2011 2012 2012 2012 2012 2012 2012 2012 2012 2013 2013
 [76] 2013 2013 2013 2013 2013 2013 2014 2016 2016 2016 2016 2016 2016 2016 2016
 ```
+
+As an aside, did this change the original year data? How would you check?
 
 But what about:
 
@@ -142,8 +144,6 @@ Understanding what happened here is key to successfully analyzing data in R.
 
 - Learners will work with factors in the following lesson. Be sure to
   cover this concept.
-- If needed for time reasons, you can skip the section on lists. The learners
-  don't use lists in the rest of the workshop.
   
 :::::::::::::::::::::::::::::::::::::::
 
@@ -211,15 +211,18 @@ class(factor('banana'))
 ```{.output}
 [1] "factor"
 ```
+The types `numeric`, `integer`, and `complex` are all numbers, although they are stored differently
+and have different mathematical properties. `logical` type data include only `TRUE` and `FALSE` values, 
+while `character` type data can contain any kind of characters. Finally, `factor` is a special type
+that was built to help us store categorical variables, variables that have a fixed and known set of 
+possible values. We'll talk more about them in a little bit.
 
-No matter how
-complicated our analyses become, all data in R is interpreted a specific
+No matter how complicated our analyses become, all data in R is interpreted a specific
 data class. This strictness has some really important consequences.
 
-A user has added new details of age expectancy. This information is in the file
-`data/casco_kelp_urchin_2.csv`.
+Let's say that a collaborator sends you an updated data file named `data/casco_kelp_urchin_2.csv`.
 
-Load the new nordic data as `casco_dmr_2`, and check what class of data we find in the
+Load the new data file as `casco_dmr_2`, and check what class of data we find in the
 `year` column:
 
 
@@ -232,7 +235,7 @@ class(casco_dmr_2$year)
 [1] "character"
 ```
 
-Oh no, our life expectancy lifeExp aren't the numeric type anymore! If we try to do the same math
+Oh no, our year data aren't the numeric type anymore! If we try to do the same math
 we did on them before, we run into trouble:
 
 
@@ -244,12 +247,12 @@ casco_dmr_2$year + 2
 Error in casco_dmr_2$year + 2: non-numeric argument to binary operator
 ```
 
-What happened? When R reads a csv file into one of these tables, it insists that
-everything in a column be the same class; if it can't understand
-*everything* in the column as numeric, then *nothing* in the column gets to be numeric. The table that R loaded our nordic data into is something called a
-dataframe, and it is our first example of something called a *data
-structure* - that is, a structure which R knows how to build out of the basic
-data types.
+What happened? When R reads a csv file into one of these tables, it insists that 
+everything in a column be the same class; if it can't understand *everything* 
+in the column as numeric, then *nothing* in the column gets to be numeric. The 
+table that R loaded our data into is something called a dataframe, and it is our 
+first example of something called a *data structure*, that is, a structure 
+which R knows how to build out of the basic data types.
 
 We can see that it is a dataframe by calling the `class()` function on it:
 
@@ -263,7 +266,8 @@ class(casco_dmr)
 ```
 
 In order to successfully use our data in R, we need to understand what the basic
-data structures are, and how they behave.
+data structures are, and how they behave. Note: in this lesson we will not cover 
+lists, which are a basic data structure in R. You can learn more about them [here] (https://r4ds.hadley.nz/rectangling.html#lists).
 
 ## Vectors and Type Coercion
 
@@ -307,10 +311,10 @@ str(another_vector)
 ```
 
 The somewhat cryptic output from this command indicates the basic data type
-found in this vector - in this case `chr`, character; an indication of the
-number of things in the vector - actually, the indexes of the vector, in this
-case `[1:3]`; and a few examples of what's actually in the vector - in this case
-empty character strings. If we similarly do
+found in this vector (in this case `chr` or character), an indication of the
+number of things in the vector (the indexes of the vector, in this
+case: `[1:3]`), and a few examples of what's actually in the vector (in this case
+empty character strings). If we similarly do:
 
 
 ```r
@@ -321,7 +325,7 @@ str(casco_dmr$year)
  int [1:90] 2001 2001 2001 2001 2001 2001 2001 2002 2002 2002 ...
 ```
 
-we see that `casco_dmr$year` is a vector, too - the columns of data we load into R
+we see that `casco_dmr$year` is a vector, too! The columns of data we load into R
 data frames are all vectors, and that's the root of why R forces everything in
 a column to be the same basic data type.
 
@@ -342,7 +346,6 @@ number, then you can interpret *all* of them as numbers, so we don't have to
 check every time. This consistency is what people mean when they talk about
 *clean data*; in the long run, strict consistency goes a long way to making
 our lives easier in R.
-
 
 
 :::::::::::::::::::::::::
@@ -647,14 +650,14 @@ str(casco_dmr$region)
  chr [1:90] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" ...
 ```
 
-One final important data structure in R is called a "factor". Factors look like 
-character data, but are used to represent data where each element of the vector
-must be one of a limited number of "levels". To phrase that another way, factors
-are an "enumerated" type where there are a finite number of pre-defined values
-that your vector can have. 
+One final important data structure in R is called a "factor" (that special data 
+type we mentioned above). Factors look like character data, but are used to 
+represent data where each element of the vector must be one of a limited number 
+of "levels". To phrase that another way, factors are an "enumerated" type where 
+there are a finite number of pre-defined values that your vector can have. 
 
-For example, let's make a vector of strings labeling nordic countries for all 
-the countries in our study:
+For example, let's make a character vector with all the sampling regions in the DMR
+kelp data:
 
 
 ```r
@@ -695,10 +698,10 @@ str(maine_regions)
  chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"
 ```
 
-Now R has noticed that there are 6 possible categories in our data - but it
-also did something surprising; instead of printing out the strings we gave it,
+Now R has noticed that there are 6 possible categories in our data, but it
+also did something surprising. Instead of printing out the strings we gave it,
 we got a bunch of numbers instead. R has replaced our human-readable categories
-with numbered indices under the hood, this is necessary as many statistical
+with numbered indices under the hood! This is necessary as many statistical
 calculations utilize such numerical representations for categorical data:
 
 
@@ -729,8 +732,8 @@ converting it back to a character vector.
 Now try converting `year` in our `casco_dmr` data frame to a factor, then back
 to a numeric vector. What happens if you use `as.numeric()`?
 
-Remember that you can reload the `casco_dmr` data frame using 
-`read.csv("data/casco_kelp_urchin.csv")` if you accidentally lose some data!
+Remember that you can always reload the `casco_dmr` data frame using 
+`read.csv("data/casco_kelp_urchin.csv")` if you accidentally mess up your data!
 
 :::::::::::::::  solution
 
@@ -854,8 +857,8 @@ labeled in alphabetical order. You can change this by specifying the levels:
 
 
 ```r
-mydata <- c("case", "control", "control", "case")
-factor_ordering_example <- factor(mydata, levels = c("control", "case"))
+treatment <- c("case", "control", "control", "case")
+factor_ordering_example <- factor(treatment, levels = c("control", "case"))
 str(factor_ordering_example)
 ```
 
@@ -883,8 +886,8 @@ levels(factor_ordering_example)
 unique(mydata)
 ```
 
-```{.output}
-[1] "case"    "control"
+```{.error}
+Error in eval(expr, envir, enclos): object 'mydata' not found
 ```
 
 Note that the order is different - for `unique()` it's based on the order of 
@@ -903,7 +906,7 @@ unique(non_alpha_vector)
 ```
 
 ```r
-sort( unique(non_alpha_vector) )
+sort(unique(non_alpha_vector) )
 ```
 
 ```{.output}
@@ -915,7 +918,8 @@ sort( unique(non_alpha_vector) )
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - Use `read.csv` to read tabular data in R.
-- The basic data types in R are double, integer, complex, logical, and character.
+- The basic data types in R are numeric, integer, complex, logical, character, and factor.
+- Dataframes store columns of the same data type as vectors.
 - Use characters and factors to represent categories in R.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::

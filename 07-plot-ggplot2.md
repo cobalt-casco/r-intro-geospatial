@@ -53,7 +53,7 @@ Data](https://cobalt-casco.github.io/r-raster-vector-geospatial/) lesson.
 
 ggplot2 is built on the grammar of graphics, the idea that any plot can be
 expressed from the same set of components: a **data** set, a **coordinate
-system**, and a set of **geoms**\--the visual representation of data points. The
+system**, and a set of **geoms** (the visual representation of data points). The
 key to understanding ggplot2 is thinking about a figure in layers. This idea may
 be familiar to you if you have used image editing programs like Photoshop,
 Illustrator, or Inkscape. In this episode we will focus on two geoms
@@ -61,19 +61,17 @@ Illustrator, or Inkscape. In this episode we will focus on two geoms
 - histograms and bar plot. In the [R for Raster and Vector Data](https://datacarpentry.org/r-raster-vector-geospatial/) lesson we will work with a number of other geometries
   and learn how to customize our plots.
 
-Let's start off with an example plotting the
-distribution of life expectancy in our dataset. The first thing we do is call the `ggplot` function. This function lets R
+Let's start off with an example plotting the distribution of kelp % cover in our dataset. 
+The first thing we do is call the `ggplot` function. This function lets R
 know that we're creating a new plot, and any of the arguments we give the
 `ggplot()` function are the global options for the plot: they apply to all
 layers on the plot.
 
-We will pass in two arguments to `ggplot`. First, we tell
-`ggplot` what data we
-want to show on our figure, in this example we use the gapminder data we read in
-earlier. For the second argument we pass in the `aes()` function, which
-tells `ggplot` how variables in the data map to aesthetic properties of
-the figure. Here we will tell `ggplot` we
-want to plot the "kelp" column of the dmr data frame on the x-axis. We don't need to specify a y-axis for histograms.
+We will pass in two arguments to `ggplot`. First, we tell `ggplot` what data we
+want to show on our figure. For the second argument we pass in the `aes()` function, 
+which tells `ggplot` how variables in the data map to aesthetic properties of the 
+figure. Here we will tell `ggplot` we want to plot the "kelp" column of the dmr 
+data frame on the x-axis. We don't need to specify a y-axis for histograms.
 
 
 ```r
@@ -85,7 +83,7 @@ ggplot(data = dmr,
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter-1.png" alt="Histogram of histogram of kelp percent cover sampled by the DMR"  />
+<img src="fig/07-plot-ggplot2-rendered-hist-kelpcover-1.png" alt="Histogram of histogram of kelp percent cover sampled by the DMR"  />
 <p class="caption">Histogram of histogram of kelp percent cover sampled by the DMR</p>
 </div>
 
@@ -113,7 +111,7 @@ ggplot(data = dmr, aes(x = kelp)) +
 `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="fig/07-plot-ggplot2-rendered-lifeExp-vs-gdpPercap-scatter2-1.png" style="display: block; margin: auto;" />
+<img src="fig/07-plot-ggplot2-rendered-hist-kelpcover2-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -121,7 +119,7 @@ ggplot(data = dmr, aes(x = kelp)) +
 
 Modify the example so that the figure shows the
 distribution of urchin counts, rather than kelp 
-percent cover:
+percent cover.
 
 :::::::::::::::  solution
 
@@ -147,53 +145,51 @@ ggplot(data = dmr,
 The histogram is a useful tool for visualizing the
 distribution of a single continuous variable. What if
 we want to compare the kelp cover of the regions in
-our dataset? We can use a bar (or column) plot.
-To simplify our plot, let's look at data only from 2007 and only
-from sites in the Casco Bay. 
+our dataset? We could use a bar (or column) plot.
+First, let's create a dataset with the mean % kelp for each region.
 
 
 ```r
-dmr_small <- dmr |>
-  filter(year == 2007, 
-         region == "Casco Bay") 
+region_mean_kelp <- dmr |>
+  group_by(region) |>
+  mutate(mean_kelp = mean(kelp))
 ```
 
 This time, we will use the `geom_col()` function as our geometry.
-We will plot sites on the x-axis (listed in alphabetic order
-by default) and kelp on the y-axis.
+We will plot regions on the x-axis (listed in alphabetic order
+by default) and mean kelp on the y-axis.
 
 
 ```r
-ggplot(data = dmr_small, 
-       mapping = aes(x = site, y = kelp)) + 
+ggplot(data = region_mean_kelp, 
+       mapping = aes(x = region, y = mean_kelp)) + 
   geom_col()
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/07-plot-ggplot2-rendered-hist-subset-gapminder-1.png" alt="Barplot of GDP per capita. Country names on x-axis overlap and are not readable"  />
-<p class="caption">Barplot of GDP per capita. Country names on x-axis overlap and are not readable</p>
+<img src="fig/07-plot-ggplot2-rendered-mean-kelp-region-1.png" alt="Bar plot of the mean percent kelp cover for each region"  />
+<p class="caption">Bar plot of the mean percent kelp cover for each region</p>
 </div>
 
-With this many bars plotted, it's impossible to read all of the
-x-axis labels. A quick fix to this is the add the `coord_flip()`
-function to the end of our plot code.
+This looks okay, although perhaps you might want to display more than just the
+mean values. You could try another geometry: box plots, with `geom_boxplot`. Here we need the 
+full un-summarized dataset. You might also want to specify axis labels by using the
+function `labs`.
 
 
 ```r
-ggplot(data = dmr_small, 
-       mapping = aes(x = site, y = kelp)) + 
-  geom_col() +
-  coord_flip()
+ggplot(data = dmr, 
+       mapping = aes(x = region, y = kelp)) + 
+  geom_boxplot() +
+  labs(x = "Region", y = "Percent Kelp Cover")
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/07-plot-ggplot2-rendered-hist-subset-gapminder-flipped-1.png" alt="Barplot showing GDP per capita. Country names on the y-axis are readable"  />
-<p class="caption">Barplot showing GDP per capita. Country names on the y-axis are readable</p>
+<img src="fig/07-plot-ggplot2-rendered-kelp-region-boxplot-1.png" alt="Box plot of kelp cover for each region"  />
+<p class="caption">Box plot of kelp cover for each region</p>
 </div>
 
-There are more sophisticated ways of modifying axis
-labels. We will be learning some of those methods
-later in this workshop.
+There are more sophisticated ways of modifying axis labels. We will be learning some of those methods later in this workshop.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -204,7 +200,7 @@ the `geom_histogram()` and `geom_col()` functions which columns
 of the data set to plot.
 Another aesthetic property we can modify is the
 color. Create a new bar (column) plot showing the average kelp
-abundance over time in Casco Bay and Downeast color coded by year
+abundance over time in Casco Bay and Downeast color-coded by year
 from the years 2001 - 2012.
 
 :::::::::::::::  solution
@@ -216,11 +212,11 @@ our filtered and averaged
 
 
 ```r
-dmr_small_2 <- dmr |>
+dmr_small <- dmr |>
   filter(region %in% c("Casco Bay", "Downeast"),
          year %in% 2001:2012) |>
   group_by(region, year) |>
-  summarize(kelp = mean(kelp))
+  summarize(mean_kelp = mean(kelp))
 ```
 
 Then we plot that data using the `geom_col()`
@@ -234,14 +230,14 @@ is "stack".
 
 
 ```r
-ggplot(dmr_small_2, 
-       aes(x = as.character(year), y = kelp, 
-       fill = region)) +
-   geom_col(position = "dodge") + 
-   coord_flip()
+ggplot(dmr_small, 
+       aes(x = as.character(year), y = mean_kelp, 
+           fill = region)) +
+  geom_col(position = "dodge") + #puts the bars next to each other
+  labs(x = "Year", y = "Mean % Kelp Cover")
 ```
 
-<img src="fig/07-plot-ggplot2-rendered-gpd-per-cap-1.png" style="display: block; margin: auto;" />
+<img src="fig/07-plot-ggplot2-rendered-kelp-compare-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::
 

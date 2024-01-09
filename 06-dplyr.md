@@ -19,18 +19,18 @@ source: Rmd
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Let's begin by loading loading the Maine DMR kelp-urchin data for the whole 
-coastline.
+Let's begin by loading the Maine DMR kelp-urchin data for the whole coastline.
 
 
 ```r
 dmr <- read.csv("data/dmr_kelp_urchin.csv") 
 ```
 
-Manipulation of dataframes means many things to many researchers, we often
+Manipulation of dataframes means many things to many researchers. We often
 select certain observations (rows) or variables (columns), we often group the
-data by a certain variable(s), or we even calculate summary statistics. We can
-do these operations using the normal base R operations:
+data by a certain variable(s), or we even calculate new variables or summary 
+statistics. We can do these operations using the base R operations we've
+already learned:
 
 
 ```r
@@ -115,8 +115,8 @@ dmr_kelp <- select(dmr, year, region, kelp)
 
 ![](fig/13-dplyr-fig1.png){alt='Illustration of selecting two columns from a dataframe'}
 
-If we open up `dmr_kelp` we'll see that it only contains the year,
-region and kelp.
+If we examine `dmr_kelp` we'll see that it only contains the year,
+region and kelp columns.
 
 ## The Pipe
 
@@ -127,7 +127,7 @@ using pipes.
 
 
 ```r
-dmr <- dmr |> select(year, region, kelp)
+dmr_kelp <- dmr |> select(year, region, kelp)
 ```
 
 To help you understand why we wrote that in that way, let's walk through it step
@@ -161,7 +161,7 @@ dmr$region |> unique() |> sort()
 ```
 
 To make our code more readable when we chain operations together, we often
-separate each step onto it's own line of code. 
+separate each step onto its own line of code. 
 
 
 ```r
@@ -170,8 +170,8 @@ dmr$region |>
   sort()
 ```
 
-This has the secondary benefit of, if you're puzzing through a particularly 
-difficult workflow, you can write it out in comments, with one step on each 
+This has the secondary benefit that if you're puzzing through a particularly 
+difficult workflow, you can write it out in comments with one step on each 
 line, and then figure out what functions to use. Like as follows
 
 
@@ -214,8 +214,8 @@ dmr$region |>
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-**Fun Fact**: You may have encountered
-pipes before in the shell. In R, a pipe symbol is `|>` while in the shell it is
+**Fun Fact**: You may have encountered pipes before in other programming
+contexts. In R, a pipe symbol is `|>` while in other contexts it is often
 `|` but the concept is the same! 
 
 The `|>` operator is relatively new in R as part of the base language. But, the
@@ -231,6 +231,7 @@ of dplyr and much of the tidyverse who popularized `%>%`) is [pro-base-pipe](htt
 
 ## Using `filter()`
 
+Just as `select` subsets columns, `filter` subsets rows using logical arguments. 
 If we now wanted to move forward with the above, but only with data from 2011
 and kelp data, we can combine `select` and `filter`
 
@@ -247,7 +248,7 @@ dmr_2011 <- dmr |>
 
 Write a single command (which can span multiple lines and includes pipes) that
 will produce a dataframe that has the Midcoast values for `kelp`, `urchin`
-and `year`, but not for other regions  How many rows does your dataframe
+and `year`, but not for other regions. How many rows does your dataframe
 have and why?
 
 :::::::::::::::  solution
@@ -259,20 +260,12 @@ have and why?
 year_kelp_urchin_dmr <- dmr |>
                            filter(region=="Midcoast") |>
                            select(year,kelp,urchin)
-```
 
-```{.error}
-Error in `select()`:
-! Can't subset columns that don't exist.
-✖ Column `urchin` doesn't exist.
-```
-
-```r
 nrow(year_kelp_urchin_dmr)
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'year_kelp_urchin_dmr' not found
+```{.output}
+[1] 249
 ```
 
 249 rows, as they are only the Midcoast samples
@@ -285,13 +278,15 @@ As with last time, first we pass the dmr dataframe to the `filter()`
 function, then we pass the filtered version of the dmr data frame to the
 `select()` function. **Note:** The order of operations is very important in this
 case. If we used 'select' first, filter would not be able to find the variable
-continent since we would have removed it in the previous step.
+region since we would have removed it in the previous step.
+
+We could now do some specific operations (like calculating summary statistics) on just the Midcoast region.
 
 ## Using `group_by()` and `summarize()`
 
-Now, we were supposed to be reducing the error prone repetitiveness of what can
-be done with base R, but up to now we haven't done that since we would have to
-repeat the above for each region Instead of `filter()`, which will only pass
+However, we were supposed to be reducing the error prone repetitiveness of what can
+be done with base R! If we wanted to do something for each region, we could take the 
+above approach but we would have to repeat for each region. Instead of `filter()`, which will only pass
 observations that meet your criteria (in the above: `region`=="Midcoast"`), we
 can use `group_by()`, which will essentially use every unique criteria that you
 could have used in filter.
@@ -330,10 +325,22 @@ dmr |> group_by(region) |> str()
 ```
 
 ```{.output}
-gropd_df [1,478 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
- $ year  : int [1:1478] 2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
- $ region: chr [1:1478] "York" "York" "York" "York" ...
- $ kelp  : num [1:1478] 1.9 0 18.5 0.6 63.5 92.5 59 7.7 52.5 29.2 ...
+gropd_df [1,478 × 15] (S3: grouped_df/tbl_df/tbl/data.frame)
+ $ year         : int [1:1478] 2001 2001 2001 2001 2001 2001 2001 2001 2001 2001 ...
+ $ region       : chr [1:1478] "York" "York" "York" "York" ...
+ $ exposure.code: int [1:1478] 4 4 4 4 4 2 2 3 2 2 ...
+ $ coastal.code : int [1:1478] 3 3 3 4 3 2 2 3 2 2 ...
+ $ latitude     : num [1:1478] 43.1 43.3 43.4 43.5 43.5 ...
+ $ longitude    : num [1:1478] -70.7 -70.6 -70.4 -70.3 -70.3 ...
+ $ depth        : int [1:1478] 5 5 5 5 5 5 5 5 5 5 ...
+ $ crust        : num [1:1478] 60 75.5 73.5 63.5 72.5 6.1 31.5 31.5 40.5 53 ...
+ $ understory   : num [1:1478] 100 100 80 82 69 38.5 74 96.5 60 59.5 ...
+ $ kelp         : num [1:1478] 1.9 0 18.5 0.6 63.5 92.5 59 7.7 52.5 29.2 ...
+ $ urchin       : num [1:1478] 0 0 0 0 0 0 0 0 0 0 ...
+ $ month        : int [1:1478] 6 6 6 6 6 6 6 6 6 6 ...
+ $ day          : int [1:1478] 13 13 14 14 14 15 15 15 8 8 ...
+ $ survey       : chr [1:1478] "dmr" "dmr" "dmr" "dmr" ...
+ $ site         : int [1:1478] 42 47 56 61 62 66 71 70 23 22 ...
  - attr(*, "groups")= tibble [6 × 2] (S3: tbl_df/tbl/data.frame)
   ..$ region: chr [1:6] "Casco Bay" "Downeast" "MDI" "Midcoast" ...
   ..$ .rows : list<int> [1:6] 
@@ -380,14 +387,14 @@ kelp_by_region
 
 ![](fig/13-dplyr-fig3.png){alt='illustration of creating a summary dataframe from grouped data'}
 
-That allowed us to calculate the mean gdpPercap for each continent, but it gets
+That allowed us to calculate the mean kelp % cover for each region, but it gets
 even better.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 2
 
-Calculate the average urchin abundance per country. Which region has the most 
+Calculate the average urchin abundance per region. Which region has the most 
 urchins on average and which has the least?
 
 :::::::::::::::  solution
@@ -399,23 +406,17 @@ urchins on average and which has the least?
 urchin_by_region <- dmr |>
    group_by(region) |>
    summarize(mean_urchins = mean(urchin))
-```
 
-```{.error}
-Error in `summarize()`:
-ℹ In argument: `mean_urchins = mean(urchin)`.
-ℹ In group 1: `region = "Casco Bay"`.
-Caused by error:
-! object 'urchin' not found
-```
-
-```r
 urchin_by_region |>
    filter(mean_urchins == min(mean_urchins) | mean_urchins == max(mean_urchins))
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'urchin_by_region' not found
+```{.output}
+# A tibble: 2 × 2
+  region        mean_urchins
+  <chr>                <dbl>
+1 Casco Bay           0.0767
+2 Penobscot Bay       5.30  
 ```
 
 Another way to do this is to use the `dplyr` function `arrange()`, which
@@ -431,8 +432,11 @@ urchin_by_region |>
    head(1)
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'urchin_by_region' not found
+```{.output}
+# A tibble: 1 × 2
+  region    mean_urchins
+  <chr>            <dbl>
+1 Casco Bay       0.0767
 ```
 
 ```r
@@ -441,8 +445,11 @@ urchin_by_region |>
    head(1)
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'urchin_by_region' not found
+```{.output}
+# A tibble: 1 × 2
+  region        mean_urchins
+  <chr>                <dbl>
+1 Penobscot Bay         5.30
 ```
 
 :::::::::::::::::::::::::
@@ -473,14 +480,6 @@ kelp_urchin_region_year <- dmr |>
             mean_urchin = mean(urchin),
             sd_kelp = sd(kelp),
             sd_urchin = sd(urchin))
-```
-
-```{.error}
-Error in `summarize()`:
-ℹ In argument: `mean_urchin = mean(urchin)`.
-ℹ In group 1: `region = "Casco Bay"`, `year = 2001`.
-Caused by error:
-! object 'urchin' not found
 ```
 
 ## `count()` and `n()`
@@ -520,12 +519,16 @@ dmr |>
     summarize(se_urchin = sd(urchin)/sqrt(n()))
 ```
 
-```{.error}
-Error in `summarize()`:
-ℹ In argument: `se_urchin = sd(urchin)/sqrt(n())`.
-ℹ In group 1: `region = "Casco Bay"`.
-Caused by error:
-! object 'urchin' not found
+```{.output}
+# A tibble: 6 × 2
+  region        se_urchin
+  <chr>             <dbl>
+1 Casco Bay        0.0392
+2 Downeast         0.303 
+3 MDI              0.388 
+4 Midcoast         0.227 
+5 Penobscot Bay    0.659 
+6 York             0.788 
 ```
 
 
@@ -571,31 +574,34 @@ dmr |>
 ```
 
 ```{.output}
-# A tibble: 1,478 × 5
+# A tibble: 1,478 × 17
 # Groups:   region [6]
-    year region     kelp mean_kelp_regional kelp_anomaly_regional
-   <int> <chr>     <dbl>              <dbl>                 <dbl>
- 1  2001 York        1.9               19.4               -17.5  
- 2  2001 York        0                 19.4               -19.4  
- 3  2001 York       18.5               19.4                -0.876
- 4  2001 York        0.6               19.4               -18.8  
- 5  2001 York       63.5               19.4                44.1  
- 6  2001 Casco Bay  92.5               44.1                48.4  
- 7  2001 Casco Bay  59                 44.1                14.9  
- 8  2001 Casco Bay   7.7               44.1               -36.4  
- 9  2001 Casco Bay  52.5               44.1                 8.35 
-10  2001 Casco Bay  29.2               44.1               -14.9  
+    year region    exposure.code coastal.code latitude longitude depth crust
+   <int> <chr>             <int>        <int>    <dbl>     <dbl> <int> <dbl>
+ 1  2001 York                  4            3     43.1     -70.7     5  60  
+ 2  2001 York                  4            3     43.3     -70.6     5  75.5
+ 3  2001 York                  4            3     43.4     -70.4     5  73.5
+ 4  2001 York                  4            4     43.5     -70.3     5  63.5
+ 5  2001 York                  4            3     43.5     -70.3     5  72.5
+ 6  2001 Casco Bay             2            2     43.7     -70.1     5   6.1
+ 7  2001 Casco Bay             2            2     43.8     -70.0     5  31.5
+ 8  2001 Casco Bay             3            3     43.8     -69.9     5  31.5
+ 9  2001 Casco Bay             2            2     43.8     -69.9     5  40.5
+10  2001 Casco Bay             2            2     43.8     -69.9     5  53  
 # ℹ 1,468 more rows
+# ℹ 9 more variables: understory <dbl>, kelp <dbl>, urchin <dbl>, month <int>,
+#   day <int>, survey <chr>, site <int>, mean_kelp_regional <dbl>,
+#   kelp_anomaly_regional <dbl>
 ```
 
 This worked, but, uh oh. Why is the data frame still grouped? Leaving a data 
 frame grouped will have consequences, as any other mutate will be done 
 **by region** instead of on the whole data frame. So, for example, if we wanted 
-to then get a *global* anomaly - i.e., the difference between kelp and the 
+to then get a *global* anomaly, i.e., the difference between kelp and the 
 average amount of kelp for the entire data set, we couldn't just do another set
 of mutates. 
 
-Fortunately, we can resolve this with `ungroup()` - a useful verb to insert any
+Fortunately, we can resolve this with `ungroup()`: a useful verb to insert any
 time you want to remove all grouping structure, and are worried `dplyr` is not
 doing it for you.
 
@@ -610,27 +616,30 @@ dmr |>
 ```
 
 ```{.output}
-# A tibble: 6 × 5
-   year region     kelp mean_kelp_regional kelp_anomaly_regional
-  <int> <chr>     <dbl>              <dbl>                 <dbl>
-1  2001 York        1.9               19.4               -17.5  
-2  2001 York        0                 19.4               -19.4  
-3  2001 York       18.5               19.4                -0.876
-4  2001 York        0.6               19.4               -18.8  
-5  2001 York       63.5               19.4                44.1  
-6  2001 Casco Bay  92.5               44.1                48.4  
+# A tibble: 6 × 17
+   year region    exposure.code coastal.code latitude longitude depth crust
+  <int> <chr>             <int>        <int>    <dbl>     <dbl> <int> <dbl>
+1  2001 York                  4            3     43.1     -70.7     5  60  
+2  2001 York                  4            3     43.3     -70.6     5  75.5
+3  2001 York                  4            3     43.4     -70.4     5  73.5
+4  2001 York                  4            4     43.5     -70.3     5  63.5
+5  2001 York                  4            3     43.5     -70.3     5  72.5
+6  2001 Casco Bay             2            2     43.7     -70.1     5   6.1
+# ℹ 9 more variables: understory <dbl>, kelp <dbl>, urchin <dbl>, month <int>,
+#   day <int>, survey <chr>, site <int>, mean_kelp_regional <dbl>,
+#   kelp_anomaly_regional <dbl>
 ```
 
-Note, it does convert your data frame into a `tibble`, but if you really want a 
-data frame back, you can use `as.data.frame()`.
+Note, it does convert your data frame into a `tibble` (a "tidy" data frame), but if 
+you really want a data frame back, you can use `as.data.frame()`.
 
 <!-- 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Extra Challenge 4
 
-Let's look at inerannual and spatial variability a bit. Calculate the urchin 
-anomaly by  `year` and `exposure.code` (1 is fully protected from the open 
+Let's look at interannual and spatial variability a bit. Calculate the urchin 
+anomaly by `year` and `exposure.code` (1 is fully protected from the open 
 ocean, 5 is fully exposed). To figure out the most variable year and exposure,
 calculate the difference between the biggest anomaly and smallest anomaly by 
 year and exposure. What year and exposure code had the biggest difference?
@@ -668,10 +677,16 @@ dmr |>
   filter(diff == max(diff))
 ```
 
-```{.error}
-Error in `group_by()` at dplyr/R/mutate.R:146:2:
-! Must group by variables found in `.data`.
-✖ Column `exposure.code` is not found.
+```{.output}
+`summarise()` has grouped output by 'year'. You can override using the
+`.groups` argument.
+```
+
+```{.output}
+# A tibble: 1 × 5
+   year exposure.code max_anomaly min_anomaly  diff
+  <int>         <int>       <dbl>       <dbl> <dbl>
+1  2010             1        79.1       -14.8  93.9
 ```
 
 
