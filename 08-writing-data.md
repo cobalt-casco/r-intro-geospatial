@@ -25,17 +25,7 @@ for the code in this episode to work.
 
 ::::::::::::::::::::::::::::::::::::::::
 
-
-Let's begin by loading libraries and some data.
-
-```r
-library(ggplot2)
-library(dplyr)
-
-dmr <- read.csv("data/dmr_kelp_urchin.csv") 
-```
-
-We will also want to create a directory to save cleaned data and figures.
+If you haven't already, you should create directories to save cleaned data and figures.
 
 
 ```r
@@ -76,8 +66,7 @@ Open up this document and have a look.
 ## Challenge 1
 
 Rewrite your 'pdf' command to print a second
-page in the pdf, showing the side-by-side bar
-plot of urchins in the data.
+page in the pdf, showing the histogram of urchins in the data.
 
 :::::::::::::::  solution
 
@@ -93,8 +82,7 @@ geom_histogram()
 
 ggplot(data = dmr, 
        mapping = aes(x = urchin)) +
-  geom_histogram() +
-  coord_flip()
+  geom_histogram()
 
 dev.off()
 ```
@@ -106,9 +94,8 @@ dev.off()
 The commands `jpeg`, `png`, etc. are used similarly to produce
 documents in different formats. You can also use `ggsave()` to save whatever 
 your last plot was. For example, let's say we made a neat plot using 
-`geom_point()` to show the relationship between kelp and urchins colored
-by region. We want to 
-save it as a jpeg. `ggsave()` will dynamically figure out your filetype from
+`geom_point()` (a scatterplot) to show the relationship between kelp and urchins colored
+by region. We want to save it as a jpeg. `ggsave()` will dynamically figure out your filetype from
 the file name.
 
 
@@ -119,14 +106,16 @@ ggplot(dmr,
   geom_point()
 ```
 
-<img src="fig/08-writing-data-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+```{.error}
+Error in ggplot(dmr, aes(x = urchin, y = kelp, color = region)): could not find function "ggplot"
+```
 
 ```r
 ggsave("figures/kelp_urchin.jpg")
 ```
 
-```{.output}
-Saving 7 x 7 in image
+```{.error}
+Error in ggsave("figures/kelp_urchin.jpg"): could not find function "ggsave"
 ```
 
 ## Writing data
@@ -137,16 +126,26 @@ We can use the `write.csv` function for this, which is
 very similar to `read.csv` from before.
 
 Let's create a data-cleaning script, for this analysis, we
-only want to focus on the gapminder data for Australia:
+only want to focus on the data for Downeast:
 
 
 ```r
 downeast_subset <- dmr |>
   filter(region == "Downeast")
+```
 
+```{.error}
+Error in eval(expr, envir, enclos): object 'dmr' not found
+```
+
+```r
 write.csv(downeast_subset,
   file="cleaned-data/dmr_downeast.csv"
 )
+```
+
+```{.error}
+Error in eval(expr, p): object 'downeast_subset' not found
 ```
 
 Let's open the file to make sure it contains the data we expect. Navigate to your
@@ -177,6 +176,10 @@ write.csv(
   file = "cleaned-data/dmr_downeast.csv",
   row.names=FALSE
 )
+```
+
+```{.error}
+Error in eval(expr, p): object 'downeast_subset' not found
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
