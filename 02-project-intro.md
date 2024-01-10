@@ -1,6 +1,6 @@
 ---
 title: Project Management With RStudio
-teaching: 10
+teaching: 45
 exercises: 5
 source: Rmd
 ---

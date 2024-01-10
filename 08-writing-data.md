@@ -1,6 +1,6 @@
 ---
 title: Writing Data
-teaching: 10
+teaching: 20
 exercises: 10
 source: Rmd
 ---

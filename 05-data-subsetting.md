@@ -1,7 +1,7 @@
 ---
 title: Subsetting Data
-teaching: 25
-exercises: 10
+teaching: 90
+exercises: 35
 source: Rmd
 ---
 

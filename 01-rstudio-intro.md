@@ -1,6 +1,6 @@
 ---
 title: Introduction to R and RStudio
-teaching: 20
+teaching: 60
 exercises: 5
 source: Rmd
 ---
@@ -10,6 +10,7 @@ source: Rmd
 - Leave about 30 minutes at the start of each workshop and another 15 mins at 
   the start of each session for technical difficulties like WiFi and installing 
   things (even if you asked students to install in advance, longer if not).
+- the teaching 
 - Be sure to actually go through examples of an R help page: help files can be 
   intimidating at first, but knowing how to read them is tremendously useful.
 - Don't worry about being correct or knowing the material back-to-front. Use
@@ -627,7 +628,7 @@ These packages will be installed into "~/work/r-intro-geospatial/r-intro-geospat
 # Installing packages --------------------------------------------------------
 - Installing vctrs ...                          OK [linked from cache]
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 2 packages in 8.9 milliseconds.
+Successfully installed 2 packages in 9.2 milliseconds.
 ```
 
 It's important to note that we only need to install the R package on our computer once. Well, if we install a new version of R on the same computer, then we will likely need to also re-install the R packages too.

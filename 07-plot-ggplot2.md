@@ -1,6 +1,6 @@
 ---
 title: Introduction to Visualization
-teaching: 20
+teaching: 40
 exercises: 15
 source: Rmd
 ---

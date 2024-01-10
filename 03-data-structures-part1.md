@@ -1,7 +1,7 @@
 ---
 title: Data Structures
-teaching: 40
-exercises: 15
+teaching: 70
+exercises: 25
 source: Rmd
 ---
 
