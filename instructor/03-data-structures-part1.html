@@ -271,7 +271,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Structures</h1>
-        <p>Last updated on 2024-01-09 |
+        <p>Last updated on 2024-01-10 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/03-data-structures-part1.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -606,7 +606,7 @@ function on it:</p>
 <p>In order to successfully use our data in R, we need to understand
 what the basic data structures are, and how they behave. Note: in this
 lesson we will not cover lists, which are a basic data structure in R.
-You can learn more about them [here] (<a href="https://r4ds.hadley.nz/rectangling.html#lists" class="external-link uri">https://r4ds.hadley.nz/rectangling.html#lists</a>).</p>
+You can learn more about them <a href="https://r4ds.hadley.nz/rectangling.html#lists" class="external-link">here</a>.</p>
 </section><section id="vectors-and-type-coercion"><h2 class="section-heading">Vectors and Type Coercion<a class="anchor" aria-label="anchor" href="#vectors-and-type-coercion"></a>
 </h2>
 <hr class="half-width"><p>To better understand this behavior, let’s meet another of the data
@@ -1102,6 +1102,17 @@ regions in the DMR kelp data:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">class</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "character"</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb92">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">str</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1110,57 +1121,35 @@ regions in the DMR kelp data:</p>
 <pre class="output" tabindex="0"><code> chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"</code></pre>
 </div>
 <p>We can turn a vector into a factor like so:</p>
-<div class="codewrapper sourceCode" id="cb92">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span>
-<span><span class="fu">class</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "character"</code></pre>
-</div>
 <div class="codewrapper sourceCode" id="cb94">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">str</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code> chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"</code></pre>
-</div>
-<p>Now R has noticed that there are 6 possible categories in our data,
-but it also did something surprising. Instead of printing out the
-strings we gave it, we got a bunch of numbers instead. R has replaced
-our human-readable categories with numbered indices under the hood! This
-is necessary as many statistical calculations utilize such numerical
-representations for categorical data:</p>
-<div class="codewrapper sourceCode" id="cb96">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">class</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "character"</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb98">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">class</span><span class="op">(</span><span class="va">categories</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">me_region_factor</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span>
+<span><span class="fu">class</span><span class="op">(</span><span class="va">me_region_factor</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "factor"</code></pre>
 </div>
+<div class="codewrapper sourceCode" id="cb96">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">str</span><span class="op">(</span><span class="va">me_region_factor</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code> Factor w/ 6 levels "Casco Bay","Downeast",..: 6 1 4 5 3 2</code></pre>
+</div>
+<p>Now R has noticed that there are 6 possible categories in our data,
+but it also did something surprising. Instead of printing out the
+strings we gave it, we got a bunch of numbers instead. R has replaced
+our human-readable categories with numbered indices under the hood! This
+is necessary as many statistical calculations utilize such numerical
+representations for categorical data.</p>
 <div id="challenge-3" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1190,7 +1179,7 @@ accidentally mess up your data!</p>
 <div class="accordion-body">
 <p>Converting character vectors to factors can be done using the
 <code>factor()</code> function:</p>
-<div class="codewrapper sourceCode" id="cb100">
+<div class="codewrapper sourceCode" id="cb98">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1217,7 +1206,7 @@ Levels: Casco Bay</code></pre>
 </div>
 <p>You can convert these back to character vectors using
 <code>as.character()</code>:</p>
-<div class="codewrapper sourceCode" id="cb102">
+<div class="codewrapper sourceCode" id="cb100">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1244,7 +1233,7 @@ Levels: Casco Bay</code></pre>
 [85] "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay" "Casco Bay"</code></pre>
 </div>
 <p>You can convert numeric vectors to factors in the exact same way:</p>
-<div class="codewrapper sourceCode" id="cb104">
+<div class="codewrapper sourceCode" id="cb102">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1264,7 +1253,7 @@ Levels: 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2014</code><
 </div>
 <p>But be careful – you can’t use <code>as.numeric()</code> to convert
 factors to numerics!</p>
-<div class="codewrapper sourceCode" id="cb106">
+<div class="codewrapper sourceCode" id="cb104">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1282,7 +1271,7 @@ factors to numerics!</p>
 under the hood” we talked about. To go from a factor to a number, you
 need to first turn the factor into a character vector, and <em>then</em>
 turn that into a numeric vector:</p>
-<div class="codewrapper sourceCode" id="cb108">
+<div class="codewrapper sourceCode" id="cb106">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1312,7 +1301,7 @@ sure.</p>
 baseline levels are. This is assumed to be the first factor, but by
 default factors are labeled in alphabetical order. You can change this
 by specifying the levels:</p>
-<div class="codewrapper sourceCode" id="cb110">
+<div class="codewrapper sourceCode" id="cb108">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1331,7 +1320,7 @@ important for interpreting the results of statistical models!</p>
 <p>To know what the levels map to, we can use <code>levels()</code> for
 factors. To do the same for characters, we can use
 <code>unique()</code>.</p>
-<div class="codewrapper sourceCode" id="cb112">
+<div class="codewrapper sourceCode" id="cb110">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1342,22 +1331,23 @@ factors. To do the same for characters, we can use
 </h3>
 <pre class="output" tabindex="0"><code>[1] "control" "case"   </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb114">
+<div class="codewrapper sourceCode" id="cb112">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">unique</span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">unique</span><span class="op">(</span><span class="va">maine_regions</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'mydata' not found</code></pre>
+<pre class="output" tabindex="0"><code>[1] "York"          "Casco Bay"     "Midcoast"      "Penobscot Bay"
+[5] "MDI"           "Downeast"     </code></pre>
 </div>
-<p>Note that the order is different - for <code>unique()</code> it’s
+<p>Note that the order is different! For <code>unique()</code>, it’s
 based on the order of observation in the vector. For levels, it’s been
 set. If we want to sort from <code>unique()</code>, which can be very
-useful, we can try</p>
-<div class="codewrapper sourceCode" id="cb116">
+useful, we can try:</p>
+<div class="codewrapper sourceCode" id="cb114">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1370,7 +1360,7 @@ useful, we can try</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "b" "a" "c"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb118">
+<div class="codewrapper sourceCode" id="cb116">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1455,8 +1445,8 @@ character, and factor.</li>
   "url": "https://datacarpentry.github.io/r-intro-geospatial/instructor/03-data-structures-part1.html",
   "identifier": "https://datacarpentry.github.io/r-intro-geospatial/instructor/03-data-structures-part1.html",
   "dateCreated": "2018-04-05",
-  "dateModified": "2024-01-09",
-  "datePublished": "2024-01-09"
+  "dateModified": "2024-01-10",
+  "datePublished": "2024-01-10"
 }
 
   </script><script>
