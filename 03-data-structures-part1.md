@@ -267,7 +267,7 @@ class(casco_dmr)
 
 In order to successfully use our data in R, we need to understand what the basic
 data structures are, and how they behave. Note: in this lesson we will not cover 
-lists, which are a basic data structure in R. You can learn more about them [here] (https://r4ds.hadley.nz/rectangling.html#lists).
+lists, which are a basic data structure in R. You can learn more about them [here](https://r4ds.hadley.nz/rectangling.html#lists).
 
 ## Vectors and Type Coercion
 
@@ -671,6 +671,14 @@ maine_regions
 ```
 
 ```r
+class(maine_regions)
+```
+
+```{.output}
+[1] "character"
+```
+
+```r
 str(maine_regions)
 ```
 
@@ -682,44 +690,27 @@ We can turn a vector into a factor like so:
 
 
 ```r
-categories <- factor(maine_regions)
-class(maine_regions)
+me_region_factor <- factor(maine_regions)
+class(me_region_factor)
 ```
 
 ```{.output}
-[1] "character"
+[1] "factor"
 ```
 
 ```r
-str(maine_regions)
+str(me_region_factor)
 ```
 
 ```{.output}
- chr [1:6] "York" "Casco Bay" "Midcoast" "Penobscot Bay" "MDI" "Downeast"
+ Factor w/ 6 levels "Casco Bay","Downeast",..: 6 1 4 5 3 2
 ```
 
 Now R has noticed that there are 6 possible categories in our data, but it
 also did something surprising. Instead of printing out the strings we gave it,
 we got a bunch of numbers instead. R has replaced our human-readable categories
 with numbered indices under the hood! This is necessary as many statistical
-calculations utilize such numerical representations for categorical data:
-
-
-```r
-class(maine_regions)
-```
-
-```{.output}
-[1] "character"
-```
-
-```r
-class(categories)
-```
-
-```{.output}
-[1] "factor"
-```
+calculations utilize such numerical representations for categorical data.
 
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -883,16 +874,17 @@ levels(factor_ordering_example)
 ```
 
 ```r
-unique(mydata)
+unique(maine_regions)
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'mydata' not found
+```{.output}
+[1] "York"          "Casco Bay"     "Midcoast"      "Penobscot Bay"
+[5] "MDI"           "Downeast"     
 ```
 
-Note that the order is different - for `unique()` it's based on the order of 
+Note that the order is different! For `unique()`, it's based on the order of 
 observation in the vector. For levels, it's been set. If we want to sort from
-`unique()`, which can be very useful, we can try
+`unique()`, which can be very useful, we can try:
 
 
 ```r
