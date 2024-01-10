@@ -1,7 +1,7 @@
 ---
 title: Data frame Manipulation with dplyr
-teaching: 30
-exercises: 10
+teaching: 60
+exercises: 20
 source: Rmd
 ---
 
