@@ -428,6 +428,7 @@ vector are `TRUE`).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 2
@@ -466,6 +467,102 @@ print(x_subset)
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Skipping named elements
+
+Skipping or removing named elements is a little harder. If we try to skip one named element by negating 
+the string, R complains (slightly obscurely) that it doesn't know how to take the negative of a string:
+
+
+```r
+x <- c(a=5.4, b=6.2, c=7.1, d=4.8, e=7.5) # we start again by naming a vector 'on the fly'
+x[-"a"]
+```
+
+```{.error}
+Error in -"a": invalid argument to unary operator
+```
+
+However, we can use the `!=` (not-equals) operator to construct a logical vector that will do what we want:
+
+
+```r
+x[names(x) != "a"]
+```
+
+```{.output}
+  b   c   d   e 
+6.2 7.1 4.8 7.5 
+```
+
+Skipping multiple named indices is a little bit harder still. Suppose we want to drop the `"a"` and `"c"` 
+elements, so we try this:
+
+
+```r
+x[names(x)!=c("a","c")]
+```
+
+```{.warning}
+Warning in names(x) != c("a", "c"): longer object length is not a multiple of
+shorter object length
+```
+
+```{.output}
+  b   c   d   e 
+6.2 7.1 4.8 7.5 
+```
+
+R did *something*, but it gave us a warning that we ought to pay attention to, and it apparently *gave us 
+the wrong answer* (the `"c"` element is still included in the vector)!
+
+So what does `!=` actually do in this case? That's an excellent question.
+
+### Recycling
+
+Let's take a look at the comparison component of this code:
+
+
+```r
+names(x) != c("a", "c")
+```
+
+```{.warning}
+Warning in names(x) != c("a", "c"): longer object length is not a multiple of
+shorter object length
+```
+
+```{.output}
+[1] FALSE  TRUE  TRUE  TRUE  TRUE
+```
+
+Why does R give `TRUE` as the third element of this vector, when `names(x)[3] != "c"` is obviously false?
+When you use `!=`, R tries to compare each element
+of the left argument with the corresponding element of its right
+argument. What happens when you compare vectors of different lengths?
+
+When one vector is shorter than the other, it gets *recycled*. In this case R **repeats** `c("a", "c")` 
+as many times as necessary to match `names(x)`, i.e. we get `c("a","c","a","c","a")`. Since the recycled 
+`"a"` doesn't match the third element of `names(x)`, the value of `!=` is `TRUE`.
+Because in this case the longer vector length (5) isn't a multiple of the shorter vector length (2), 
+R printed a warning message. If we had been unlucky and `names(x)` had contained six elements, R would 
+*silently* have done the wrong thing (i.e., not what we intended it to do). 
+This recycling rule can can introduce hard-to-find and subtle bugs!
+
+The way to get R to do what we really want (match *each* element of the left argument with *all* of the 
+elements of the right argument) it to use the `%in%` operator. The `%in%` operator goes through each element 
+of its left argument, in this case the names of `x`, and asks, "Does this element occur in the second 
+argument?". Here, since we want to *exclude* values, we also need a `!` operator to change "in" to "not in":
+
+
+```r
+x[! names(x) %in% c("a","c") ]
+```
+
+```{.output}
+  b   d   e 
+6.2 4.8 7.5 
+```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
