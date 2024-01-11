@@ -157,46 +157,102 @@ There are more sophisticated ways of modifying axis labels. We will be learning 
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge 2
+## Challenge 2: A regional subset of the data over time
 
-In the previous examples and challenge we've used the `aes` function to tell
-the `geom_histogram()` and `geom_col()` functions which columns
-of the data set to plot.
-Another aesthetic property we can modify is the
-color. Create a new bar (column) plot showing the average kelp
-abundance over time in Casco Bay and Downeast color-coded by year
-from the years 2001 - 2012.
+Let's combine `dplyr` with `ggplot2` to create a visualization of how kelp has
+changed by region over time. This is a complex workflow - but a pretty typical
+one. We're going to break it down piece by piece here so you can see how we 
+create a whole piece of visualization starting with a large complex object.
+
+Our goal is to create a time series plot for two regions of mean kelp.
+
+**dplyr portion** - For each part of the exercise, just keep piping to create
+a full workflow that will result in `casco_downeast_kelp`. Check your answer 
+after each step to make sure it's correct.
+
+1. What are our two regions and years that we want? Let's start by creating a
+data set called `casco_downeast_kelp`. Filter down to just the `Casco Bay` and 
+`Downeast` regions. This is a great place to use the `%in% operator for the
+filter. After filtering regions, filter `year` to just the years 2001 - 2012.
+You can use some `<` `>` for this or use `%in%.
+
+2. Next, group by both region and year (you can use a `,` to separate grouping
+variables in `group_by()`).
+
+3. Summarize to get the mean value of kelp for each year/region combination.
+
+**ggplot2 portion** - use `casco_downeast_kelp` to plot the following.
+
+4. Make a `ggplot()` just like we did before with a `geom_col()`. But, now, 
+set your x value to be year. Also, make `fill = region`. What does this show you?
+What happens if you add an additional argument to `geom_col()` so that you have
+`geom_col(position = position_dodge())`.
+
+5. One of the beautiful things about `ggplot2` is how we can make a few small 
+changes and get a totally different visualization that teaches us something new.
+Copy and paste the plot you made in 4. Remove the `geom_col()`. Now, add 
+`geom_point()` and `geom_line()` in succession. Also, remove the fill aesthestic
+and change add in `color = region` instead.
 
 :::::::::::::::  solution
 
 ## Solution to challenge 2
 
-First we create a new object with
-our filtered and averaged
+**dplyr portion** 
 
-```{r ch2-sol, message = FALSE}
-dmr_small <- dmr |>
-  filter(region %in% c("Casco Bay", "Downeast"),
-         year %in% 2001:2012) |>
-  group_by(region, year) |>
-  summarize(mean_kelp = mean(kelp))
+1. 
+```{r}
+casco_downeast_kelp <- dmr |>
+  filter(region %in% c("Casco Bay", "Downeast")) |>
+  filter(year %in% 2001:2012)
+
+head(casco_downeast_kelp)
 ```
 
-Then we plot that data using the `geom_col()`
-geom function. We color bars using the `fill`
-parameter within the `aes()` function.
-Since there are multiple bars for each
-country, we use the `position` parameter
-to "dodge" them so they appear side-by-side.
-The default behavior for `postion` in `geom_col()`
-is "stack".
 
-```{r kelp-compare}
-ggplot(dmr_small, 
-       aes(x = as.character(year), y = mean_kelp, 
-           fill = region)) +
-  geom_col(position = "dodge") + #puts the bars next to each other
-  labs(x = "Year", y = "Mean % Kelp Cover")
+2. 
+```{r}
+casco_downeast_kelp <- dmr |>
+  filter(region %in% c("Casco Bay", "Downeast")) |>
+  filter(year %in% 2001:2012) |>
+  group_by(year, region)
+
+head(casco_downeast_kelp)
+```
+
+3. 
+
+```{r}
+casco_downeast_kelp <- dmr |>
+  filter(region %in% c("Casco Bay", "Downeast")) |>
+  filter(year %in% 2001:2012) |>
+  group_by(year, region) |>
+  summarize(mean_kelp = mean(kelp))
+
+head(casco_downeast_kelp)
+```
+
+**ggplot2 portion**
+
+4. 
+```{r}
+ggplot(data = casco_downeast_kelp,
+       mapping = aes(x = year, y = mean_kelp, fill = region)) +
+  geom_col()
+
+ggplot(data = casco_downeast_kelp,
+       mapping = aes(x = year, y = mean_kelp, fill = region)) +
+  geom_col(position = position_dodge())
+```
+
+5. 
+
+```{r}
+ggplot(data = casco_downeast_kelp,
+       mapping = aes(x = year, y = mean_kelp, color = region)) +
+  geom_point() +
+  geom_line()
+
 ```
 
 :::::::::::::::::::::::::
