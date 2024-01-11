@@ -261,7 +261,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Visualization</h1>
-        <p>Last updated on 2024-01-10 |
+        <p>Last updated on 2024-01-11 |
         
         <a href="https://github.com/datacarpentry/r-intro-geospatial/edit/main/episodes/07-plot-ggplot2.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -439,15 +439,16 @@ urchin counts, rather than kelp percent cover.</p>
 </div>
 <p>The histogram is a useful tool for visualizing the distribution of a
 single continuous variable. What if we want to compare the kelp cover of
-the regions in our dataset? We could use a bar (or column) plot. First,
-let’s create a dataset with the mean % kelp for each region.</p>
+the regions in our dataset? We could use a bar (or column) plot.</p>
+<p>First, let’s create a dataset with the mean % kelp for each
+region.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">region_mean_kelp</span> <span class="op">&lt;-</span> <span class="va">dmr</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>mean_kelp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">summarize</span><span class="op">(</span>mean_kelp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">kelp</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>This time, we will use the <code>geom_col()</code> function as our
 geometry. We will plot regions on the x-axis (listed in alphabetic order
@@ -623,8 +624,8 @@ customizations we will be working with in that lesson.</p>
   "url": "https://datacarpentry.github.io/r-intro-geospatial/instructor/07-plot-ggplot2.html",
   "identifier": "https://datacarpentry.github.io/r-intro-geospatial/instructor/07-plot-ggplot2.html",
   "dateCreated": "2018-04-05",
-  "dateModified": "2024-01-10",
-  "datePublished": "2024-01-10"
+  "dateModified": "2024-01-11",
+  "datePublished": "2024-01-11"
 }
 
   </script><script>
