@@ -146,13 +146,14 @@ The histogram is a useful tool for visualizing the
 distribution of a single continuous variable. What if
 we want to compare the kelp cover of the regions in
 our dataset? We could use a bar (or column) plot.
+
 First, let's create a dataset with the mean % kelp for each region.
 
 
 ```r
 region_mean_kelp <- dmr |>
   group_by(region) |>
-  mutate(mean_kelp = mean(kelp))
+  summarize(mean_kelp = mean(kelp))
 ```
 
 This time, we will use the `geom_col()` function as our geometry.
