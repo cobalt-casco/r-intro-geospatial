@@ -628,7 +628,7 @@ These packages will be installed into "~/work/r-intro-geospatial/r-intro-geospat
 # Installing packages --------------------------------------------------------
 - Installing vctrs ...                          OK [linked from cache]
 - Installing dplyr ...                          OK [linked from cache]
-Successfully installed 2 packages in 9.2 milliseconds.
+Successfully installed 2 packages in 9.1 milliseconds.
 ```
 
 It's important to note that we only need to install the R package on our computer once. Well, if we install a new version of R on the same computer, then we will likely need to also re-install the R packages too.
